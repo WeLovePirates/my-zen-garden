@@ -6,8 +6,9 @@ const game = {
     money: 100,
     plot: Array(3).fill(null).map(() => Array(3).fill(null)), // 3x3 array for plot
     seedShop: seedShopData, // Reference to data from data.js
-    selectedSeedType: null, // Stores the type of seed chosen from inventory for planting
-    inventory: {} // Initialize inventory dynamically based on seedShopData
+    selectedSeedType: null,
+    inventory: {}, // Inventory for seeds
+    harvestedItems: [] // NEW: Inventory for harvested crops (e.g., [{ name: "Carrot", weight: 1.2, sellValue: 24 }])
 };
 
 // Initialize inventory with all seeds from seedShopData set to 0
@@ -22,3 +23,6 @@ const plotGrid = document.getElementById('plot-grid');
 const buySeedButtons = document.querySelectorAll('.buy-seed-btn');
 const collectAllBtn = document.getElementById('collect-all-btn');
 const inventoryDisplay = document.getElementById('inventory-list');
+// NEW: UI Elements for harvested items
+const harvestedItemsDisplay = document.getElementById('harvested-items-list');
+const sellAllHarvestedBtn = document.getElementById('sell-all-harvested-btn');

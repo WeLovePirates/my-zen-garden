@@ -123,10 +123,10 @@ h2 {
     height: 110px;
     border: 3px solid #81c784;
     background-color: #aed581;
-    display: flex; /* Changed to flex for centering content */
-    flex-direction: column; /* Stack icon and text vertically */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-size: 0.9em;
     font-weight: bold;
     color: #424242;
@@ -137,7 +137,7 @@ h2 {
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
-    text-align: center; /* Ensure text lines are centered */
+    text-align: center;
 }
 
 .plot-cell:hover {
@@ -151,7 +151,6 @@ h2 {
     border-color: #90caf9;
     color: #64b5f6;
     background-image: none;
-    /* Removed justify-content: flex-start; and padding-top: 0; */
 }
 
 .plot-cell.planted {
@@ -160,7 +159,6 @@ h2 {
     color: #fb8c00;
     font-size: 0.9em;
     background-image: none;
-    /* Removed justify-content: flex-start; and padding-top: 0; */
 }
 
 .plot-cell.grown {
@@ -169,64 +167,46 @@ h2 {
     color: #333;
     font-size: 1.1em;
     font-weight: bold;
-    /* Removed justify-content: center; */
 }
 
-/* New CSS for multi-harvest plants that are ready */
 .plot-cell.multi-harvest-ready {
     border-color: #6a9c7e;
     background-color: #d1e7d8;
     box-shadow: 0 0 15px rgba(106, 156, 126, 0.5), inset 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-
 /* Sizing for growth stages - SCALED DOWN */
 .plot-cell .plant-icon.small {
-    font-size: 1.4em; /* Smaller for initial stages */
+    font-size: 1.4em;
 }
 
 .plot-cell .plant-icon.medium {
-    font-size: 1.8em; /* Slightly larger */
+    font-size: 1.8em;
 }
 
 .plot-cell .plant-icon.large {
-    font-size: 2.2em; /* More developed plants */
+    font-size: 2.2em;
 }
 
 .plot-cell .plant-icon.xlarge {
-    font-size: 2.6em; /* Fully grown plants - now significantly smaller */
+    font-size: 2.6em;
 }
-
 
 /* Main icon styling - Adjusted fallback size and removed conflicting margins */
 .plot-cell .plant-icon,
 .plot-cell .plot-icon {
-    font-size: 2.2em; /* Adjusted fallback size */
-    line-height: 1; /* Helps with vertical alignment of emoji */
-    margin: 0; /* Remove specific margins, let flexbox gap handle spacing */
+    font-size: 2.2em;
+    line-height: 1;
+    margin: 0;
     padding: 0;
     display: block;
-    transition: font-size 0.3s ease-out; /* Smooth transition when size changes */
+    transition: font-size 0.3s ease-out;
 }
 
-/* New: Gap between icon and text for planted/grown states */
+/* Gap between icon and text for planted/grown states */
 .plot-cell.planted, .plot-cell.grown {
-    gap: 5px; /* Adds a small space between the icon and text */
+    gap: 5px;
 }
-
-
-/* Removed these specific overrides as parent centering will handle it */
-/*
-.plot-cell.empty .plot-icon {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-.plot-cell.grown .plant-icon {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-*/
-
 
 .progress-bar-container {
     position: absolute;
@@ -285,7 +265,7 @@ h2 {
     background-color: #42a5f5;
 }
 
-/* Inventory Styling */
+/* Inventory Styling (for seeds) */
 .inventory-section {
     background-color: #e0f2f7;
     border-radius: 12px;
@@ -320,7 +300,6 @@ h2 {
     transform: scale(1.02);
 }
 
-
 .seed-emoji {
     font-size: 1.8em;
     margin-right: 10px;
@@ -329,8 +308,9 @@ h2 {
 .seed-name {
     font-weight: bold;
     color: #4CAF50;
-    flex-grow: 1;
+    flex-shrink: 0; /* Prevent it from shrinking too much */
     text-align: left;
+    margin-right: 10px; /* Add some space between name and details */
 }
 
 .seed-quantity {
@@ -360,6 +340,38 @@ h2 {
 }
 
 .no-seeds-message {
+    color: #757575;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+/* NEW: Harvested Items Styling */
+.harvested-items-section {
+    /* Inherits styles from .inventory-section */
+    border-color: #ffd54f; /* A slightly different border color to distinguish */
+    background-color: #fff8e1; /* A slightly different background color */
+}
+
+/* NEW/CHANGED: Styling for harvested item details (weight and value) */
+.harvested-details {
+    color: #555;
+    font-size: 0.85em;
+    font-weight: normal;
+    flex-grow: 1; /* Allow it to take up the remaining space */
+    text-align: center; /* Center the text within that space */
+    margin: 0 5px; /* Add a small horizontal margin for spacing */
+}
+
+.sell-btn {
+    background-color: #ff9800; /* Orange color for sell buttons */
+    margin-top: 15px; /* Add some space above the button */
+}
+
+.sell-btn:hover {
+    background-color: #fb8c00;
+}
+
+.no-harvested-message {
     color: #757575;
     font-style: italic;
     margin-top: 15px;
@@ -396,7 +408,6 @@ h2 {
         width: 90px;
         height: 90px;
         font-size: 0.75em;
-        /* Ensure centering is consistent with main .plot-cell */
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -447,8 +458,8 @@ h2 {
     /* Main icon styling - Adjusted fallback for small screens */
     .plot-cell .plant-icon,
     .plot-cell .plot-icon {
-        font-size: 2.0em; /* Adjust fallback size for small screens */
-        margin: 0; /* Ensure no conflicting margins */
+        font-size: 2.0em;
+        margin: 0;
     }
 
     /* Gap between icon and text for planted/grown states on small screens */

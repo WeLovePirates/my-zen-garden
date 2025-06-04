@@ -32,14 +32,13 @@ function createPlotUI() {
 function updateCellVisual(cellElement, plantObject) {
     cellElement.innerHTML = '';
     cellElement.classList.remove('empty', 'planted', 'grown', 'multi-harvest-ready');
-    // Remove previous size classes to ensure only one is applied
     cellElement.querySelectorAll('.plant-icon').forEach(icon => {
         icon.classList.remove('small', 'medium', 'large', 'xlarge');
     });
 
     if (plantObject) {
         const seedDetails = game.seedShop[plantObject.name.toLowerCase()];
-        let currentStage = seedDetails.stages[0]; // Default to first stage
+        let currentStage = seedDetails.stages[0];
         let stageName = "Growing...";
 
         if (!plantObject.isGrown) {
@@ -73,7 +72,6 @@ function updateCellVisual(cellElement, plantObject) {
 
         } else { // Plant is grown
             cellElement.classList.add('grown');
-            // For grown plants, use the emoji and sizeClass of the last stage
             const finalStage = seedDetails.stages[seedDetails.stages.length - 1];
             if (seedDetails.isMultiHarvest && plantObject.harvestsLeft > 0) {
                  cellElement.classList.add('multi-harvest-ready');
@@ -99,7 +97,6 @@ function updateCellVisual(cellElement, plantObject) {
 function updateInventoryDisplay() {
     inventoryDisplay.innerHTML = '';
 
-    // Ensures inventory is initialized for all seed types
     if (Object.keys(game.inventory).length !== Object.keys(game.seedShop).length) {
         for (const seedType in game.seedShop) {
             game.inventory[seedType] = game.inventory[seedType] || 0;
@@ -131,5 +128,30 @@ function updateInventoryDisplay() {
     }
     if (!hasSeeds) {
         inventoryDisplay.innerHTML = '<p class="no-seeds-message">Your inventory is empty. Buy seeds from the shop!</p>';
+    }
+}
+
+// NEW: Function to update the display of harvested items
+function updateHarvestedItemsDisplay() {
+    harvestedItemsDisplay.innerHTML = ''; // Clear previous content
+
+    if (game.harvestedItems.length === 0) {
+        harvestedItemsDisplay.innerHTML = '<p class="no-harvested-message">You haven\'t harvested any crops yet!</p>';
+        sellAllHarvestedBtn.style.display = 'none'; // Hide sell all button if no items
+    } else {
+        sellAllHarvestedBtn.style.display = 'block'; // Show sell all button
+        game.harvestedItems.forEach((item, index) => {
+            const harvestedItemDiv = document.createElement('div');
+            harvestedItemDiv.classList.add('inventory-item', 'harvested-item'); // Reuse inventory-item styling
+            harvestedItemDiv.innerHTML = `
+                <span class="seed-emoji">${item.emoji}</span>
+                <span class="seed-name">${item.name}</span>
+                <span class="harvested-details">
+                    (Wt: ${item.weight.toFixed(2)}kg, Val: ${item.sellValue})
+                </span>
+                <button class="plant-from-inventory-btn sell-harvested-btn" data-index="${index}">Sell</button>
+            `;
+            harvestedItemsDisplay.appendChild(harvestedItemDiv);
+        });
     }
 }
