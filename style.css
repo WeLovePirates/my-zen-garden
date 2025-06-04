@@ -1,0 +1,264 @@
+body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #d1e7d8;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.game-container {
+    background-color: #fff9e0;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15), -5px -5px 15px rgba(255, 255, 255, 0.5);
+    padding: 35px;
+    width: 100%;
+    max-width: 950px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    border: 3px dashed #b2dfdb;
+}
+
+h1 {
+    font-family: 'Chalkduster', 'Comic Sans MS', cursive;
+    color: #6a9c7e;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px #f0f8ff;
+    letter-spacing: 1.5px;
+}
+
+h2 {
+    font-family: 'Chalkduster', 'Comic Sans MS', cursive;
+    color: #557b66;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e0f2f7;
+    padding-bottom: 5px;
+}
+
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 12px 0;
+    border-bottom: 1px solid #c8e6c9;
+    background-color: #f0fff0;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.money-display {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #8bc34a;
+    text-shadow: 1px 1px #aed581;
+    padding-left: 20px;
+}
+
+#message-area {
+    font-size: 1.05em;
+    color: #607d8b;
+    background-color: #fcf9e0;
+    border: 1px solid #ffe0b2;
+    padding: 10px 18px;
+    border-radius: 10px;
+    flex-grow: 1;
+    margin-left: 25px;
+    text-align: left;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.message.error {
+    background-color: #ffebee;
+    border-color: #ffccbc;
+    color: #e57373;
+}
+
+.message.success {
+    background-color: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #66bb6a;
+}
+
+.game-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    justify-content: center;
+}
+
+.plot-section, .shop-actions-section {
+    flex: 1;
+    min-width: 320px;
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+}
+
+.plot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 110px);
+    grid-template-rows: repeat(3, 110px);
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.plot-cell {
+    width: 110px;
+    height: 110px;
+    border: 3px solid #81c784;
+    background-color: #aed581;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center;   /* Center items horizontally */
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #424242;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    user-select: none;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+}
+
+.plot-cell:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-color: #7cb342;
+}
+
+.plot-cell.empty {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+    color: #64b5f6;
+    background-image: none;
+}
+
+.plot-cell.planted {
+    background-color: #ffecb3;
+    border-color: #ffb74d;
+    color: #fb8c00;
+    font-size: 0.9em;
+    padding-top: 0;
+    background-image: none;
+}
+
+.plot-cell.grown {
+    background-color: #8bc34a;
+    border-color: #689f38;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+/* This is the key adjustment for the emoji and text alignment */
+.plot-cell .plant-icon,
+.plot-cell .plot-icon {
+    font-size: 2.8em;
+    line-height: 1; /* Helps reduce extra vertical space around emoji */
+    margin-bottom: 5px; /* Space between emoji and text */
+    display: block; /* Ensures it behaves as a block for correct spacing */
+}
+
+/* Shop and Actions */
+.seed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.buy-seed-btn, .action-btn {
+    background-color: #8bc34a;
+    color: #ffffff;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 0.5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buy-seed-btn:hover, .action-btn:hover {
+    background-color: #7cb342;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#collect-all-btn {
+    background-color: #64b5f6;
+}
+
+#collect-all-btn:hover {
+    background-color: #42a5f5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+        gap: 15px;
+    }
+    .game-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .header-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    #message-area {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 8px 10px;
+    }
+    .plot-grid {
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
+        gap: 8px;
+    }
+    .plot-cell {
+        width: 90px;
+        height: 90px;
+        font-size: 0.75em;
+    }
+    .buy-seed-btn, .action-btn {
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+}
+
+/* Optional: Custom scrollbar for a themed look */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #a5d6a7;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #81c784;
+}
