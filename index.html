@@ -1,13 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Zen Garden</title> <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>My Zen Garden</h1> <div class="header-info">
+            <div class="money-display">Money: <span id="current-money">100</span> coins</div>
+            <div id="message-area" class="message">Welcome to your garden!</div>
+        </div>
+
+        <div class="game-content">
+            <div class="plot-section">
+                <h2>Your Garden Plot</h2>
+                <div id="plot-grid" class="plot-grid">
+                    </div>
+            </div>
+
+            <div class="shop-actions-section">
+                <div class="shop">
+                    <h2>Seed Shop</h2>
+                    <div class="seed-list">
+                        <button class="buy-seed-btn" data-seed="carrot">Buy Carrot Seed (10 coins)</button>
+                        <button class="buy-seed-btn" data-seed="tomato">Buy Tomato Seed (20 coins)</button>
+                        <button class="buy-seed-btn" data-seed="corn">Buy Corn Seed (30 coins)</button>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <h2>Actions</h2>
+                    <button id="collect-all-btn" class="action-btn">Collect All Grown Plants</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
