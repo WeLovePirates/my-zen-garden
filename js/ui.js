@@ -57,7 +57,7 @@ function updateCellVisual(cellElement, plantObject) {
             }
             cellElement.classList.add('planted');
             cellElement.innerHTML = `
-                <span class="plant-icon ${currentStage.sizeClass}">${currentStage.emoji}</span><br>${plantObject.name}<br>
+                <img class="plant-icon ${currentStage.sizeClass}" src="${currentStage.imagePath}" alt="${plantObject.name} Stage"><br>${plantObject.name}<br>
                 ${stageName}
             `;
 
@@ -76,13 +76,13 @@ function updateCellVisual(cellElement, plantObject) {
             if (seedDetails.isMultiHarvest && plantObject.harvestsLeft > 0) {
                  cellElement.classList.add('multi-harvest-ready');
                  cellElement.innerHTML = `
-                    <span class="plant-icon ${finalStage.sizeClass}">${finalStage.emoji}</span><br>
+                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown"><br>
                     ${plantObject.name}<br>
                     READY (${plantObject.harvestsLeft})
                  `;
             } else {
                 cellElement.innerHTML = `
-                    <span class="plant-icon ${finalStage.sizeClass}">${finalStage.emoji}</span><br>
+                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown"><br>
                     ${plantObject.name}<br>
                     READY
                 `;
@@ -90,7 +90,7 @@ function updateCellVisual(cellElement, plantObject) {
         }
     } else {
         cellElement.classList.add('empty');
-        cellElement.innerHTML = `<span class="plot-icon">🕳️</span><br>EMPTY`;
+        cellElement.innerHTML = `<img class="plot-icon" src="sprites/hole.png" alt="Empty Plot"><br>EMPTY`;
     }
 }
 
@@ -117,8 +117,9 @@ function updateInventoryDisplay() {
                 inventoryItem.classList.add('selected');
             }
 
+            // Use the seedIcon from data.js
             inventoryItem.innerHTML = `
-                <span class="seed-emoji">${seedDetails.seedEmoji}</span>
+                <img class="seed-icon" src="${seedDetails.seedIcon}" alt="${seedDetails.name} Seed">
                 <span class="seed-name">${seedDetails.name}</span>
                 <span class="seed-quantity">x${quantity}</span>
                 <button class="plant-from-inventory-btn" data-seed="${seedType}">Plant</button>
@@ -143,8 +144,11 @@ function updateHarvestedItemsDisplay() {
         game.harvestedItems.forEach((item, index) => {
             const harvestedItemDiv = document.createElement('div');
             harvestedItemDiv.classList.add('inventory-item', 'harvested-item'); // Reuse inventory-item styling
+            // Use the image path for harvested items
+            const harvestedImagePath = game.seedShop[item.name.toLowerCase()] ? game.seedShop[item.name.toLowerCase()].stages[game.seedShop[item.name.toLowerCase()].stages.length - 1].imagePath : '';
+
             harvestedItemDiv.innerHTML = `
-                <span class="seed-emoji">${item.emoji}</span>
+                <img class="seed-icon" src="${harvestedImagePath}" alt="${item.name}">
                 <span class="seed-name">${item.name}</span>
                 <span class="harvested-details">
                     (Wt: ${item.weight.toFixed(2)}kg, Val: ${item.sellValue})

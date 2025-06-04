@@ -175,32 +175,47 @@ h2 {
     box-shadow: 0 0 15px rgba(106, 156, 126, 0.5), inset 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Sizing for growth stages - SCALED DOWN */
-.plot-cell .plant-icon.small {
-    font-size: 1.4em;
-}
-
-.plot-cell .plant-icon.medium {
-    font-size: 1.8em;
-}
-
-.plot-cell .plant-icon.large {
-    font-size: 2.2em;
-}
-
-.plot-cell .plant-icon.xlarge {
-    font-size: 2.6em;
-}
-
-/* Main icon styling - Adjusted fallback size and removed conflicting margins */
-.plot-cell .plant-icon,
-.plot-cell .plot-icon {
-    font-size: 2.2em;
+/* Sizing for growth stages - Using image sizes */
+.plot-cell .plant-icon {
+    width: 35px; /* Base size, roughly 2.2em * 16px */
+    height: 35px;
+    object-fit: contain; /* Ensure image scales within bounds */
     line-height: 1;
     margin: 0;
     padding: 0;
     display: block;
-    transition: font-size 0.3s ease-out;
+    transition: width 0.3s ease-out, height 0.3s ease-out;
+}
+
+.plot-cell .plant-icon.small {
+    width: 22px; /* Roughly 1.4em */
+    height: 22px;
+}
+
+.plot-cell .plant-icon.medium {
+    width: 29px; /* Roughly 1.8em */
+    height: 29px;
+}
+
+.plot-cell .plant-icon.large {
+    width: 35px; /* Roughly 2.2em */
+    height: 35px;
+}
+
+.plot-cell .plant-icon.xlarge {
+    width: 42px; /* Roughly 2.6em */
+    height: 42px;
+}
+
+/* Main plot icon styling for the hole */
+.plot-cell .plot-icon {
+    width: 35px; /* Match large plant icon size */
+    height: 35px;
+    object-fit: contain;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    display: block;
 }
 
 /* Gap between icon and text for planted/grown states */
@@ -249,6 +264,9 @@ h2 {
     box-sizing: border-box;
     letter-spacing: 0.5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex; /* Make it a flex container */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center content horizontally */
 }
 
 .buy-seed-btn:hover, .action-btn:hover {
@@ -256,6 +274,15 @@ h2 {
     transform: translateY(-2px);
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* NEW: Styling for the shop seed icons within buttons */
+.shop-seed-icon {
+    width: 24px; /* Adjust size as needed, roughly 1.5em for small screens */
+    height: 24px;
+    object-fit: contain;
+    margin-right: 8px; /* Space between icon and text */
+}
+
 
 #collect-all-btn {
     background-color: #64b5f6;
@@ -300,9 +327,13 @@ h2 {
     transform: scale(1.02);
 }
 
-.seed-emoji {
-    font-size: 1.8em;
+/* Styling for the new image-based seed icon */
+.seed-icon {
+    width: 29px; /* Roughly 1.8em for seed emoji */
+    height: 29px;
+    object-fit: contain;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .seed-name {
@@ -433,8 +464,9 @@ h2 {
         padding: 8px 10px;
         font-size: 0.9em;
     }
-    .seed-emoji {
-        font-size: 1.5em;
+    .seed-icon { /* Adjusted for small screens */
+        width: 24px; /* Roughly 1.5em */
+        height: 24px;
     }
     .plant-from-inventory-btn {
         padding: 6px 12px;
@@ -443,23 +475,34 @@ h2 {
 
     /* Sizing for growth stages - SCALED DOWN for small screens */
     .plot-cell .plant-icon.small {
-        font-size: 1.2em;
+        width: 19px; /* Roughly 1.2em */
+        height: 19px;
     }
     .plot-cell .plant-icon.medium {
-        font-size: 1.6em;
+        width: 26px; /* Roughly 1.6em */
+        height: 26px;
     }
     .plot-cell .plant-icon.large {
-        font-size: 2.0em;
+        width: 32px; /* Roughly 2.0em */
+        height: 32px;
     }
     .plot-cell .plant-icon.xlarge {
-        font-size: 2.4em;
+        width: 38px; /* Roughly 2.4em */
+        height: 38px;
     }
 
     /* Main icon styling - Adjusted fallback for small screens */
     .plot-cell .plant-icon,
     .plot-cell .plot-icon {
-        font-size: 2.0em;
-        margin: 0;
+        width: 32px; /* Match large plant icon size for consistency */
+        height: 32px;
+    }
+
+    /* Shop seed icon for smaller screens */
+    .shop-seed-icon {
+        width: 20px; /* Smaller for smaller screens */
+        height: 20px;
+        margin-right: 5px;
     }
 
     /* Gap between icon and text for planted/grown states on small screens */
