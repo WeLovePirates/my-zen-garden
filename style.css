@@ -129,8 +129,8 @@ h2 {
     transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
     user-select: none;
     text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
+    position: relative; /* Needed for absolute positioning of plant-icon and progress bar */
+    overflow: hidden; /* Ensures progress bar stays within bounds */
 }
 
 .plot-cell:hover {
@@ -151,8 +151,10 @@ h2 {
     border-color: #ffb74d;
     color: #fb8c00;
     font-size: 0.9em;
+    /* Adjust padding to make room for the top-aligned emoji/text and bottom progress bar */
     padding-top: 0;
     background-image: none;
+    justify-content: flex-start; /* Align content to the top for planted */
 }
 
 .plot-cell.grown {
@@ -161,15 +163,49 @@ h2 {
     color: #333;
     font-size: 1.1em;
     font-weight: bold;
+    justify-content: center; /* Center content for grown plants */
 }
 
-/* This is the key adjustment for the emoji and text alignment */
+/* Plant icon and text within the cell */
 .plot-cell .plant-icon,
 .plot-cell .plot-icon {
     font-size: 2.8em;
-    line-height: 1; /* Helps reduce extra vertical space around emoji */
-    margin-bottom: 5px; /* Space between emoji and text */
-    display: block; /* Ensures it behaves as a block for correct spacing */
+    line-height: 1;
+    margin-top: 10px; /* Space from top for planted */
+    margin-bottom: 5px;
+    display: block;
+}
+
+.plot-cell.empty .plot-icon {
+    margin-top: auto; /* Center vertically for empty */
+    margin-bottom: auto; /* Center vertically for empty */
+}
+
+.plot-cell.grown .plant-icon {
+    margin-top: auto; /* Center vertically for grown */
+    margin-bottom: auto; /* Center vertically for grown */
+}
+
+
+/* Progress Bar Styles - Smaller and more refined */
+.progress-bar-container {
+    position: absolute;
+    bottom: 8px; /* Lift it slightly from the very bottom */
+    left: 10px; /* Indent from left */
+    right: 10px; /* Indent from right */
+    height: 8px; /* Much smaller height */
+    background-color: rgba(0, 0, 0, 0.15); /* Slightly less opaque background */
+    border-radius: 4px; /* More subtle rounded corners */
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Inner shadow for depth */
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #60B042; /* A more vibrant green for the fill */
+    width: 0%;
+    transition: width 0.3s ease-out;
+    border-radius: 4px; /* Match container border-radius */
 }
 
 /* Shop and Actions */
@@ -240,6 +276,13 @@ h2 {
         width: 90px;
         height: 90px;
         font-size: 0.75em;
+    }
+    /* Adjust progress bar for smaller cells */
+    .progress-bar-container {
+        bottom: 5px;
+        left: 8px;
+        right: 8px;
+        height: 7px;
     }
     .buy-seed-btn, .action-btn {
         padding: 10px 15px;
