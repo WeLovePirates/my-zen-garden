@@ -143,6 +143,15 @@ function updateCellVisual(cellElement, plantObject) {
         } else {
             cellElement.classList.add('planted');
             cellElement.innerHTML = `<span class="plant-icon">🌱</span><br>${plantObject.name}`; // Generic seedling emoji
+
+            // Add progress bar for planted but not grown plants
+            const progressBarContainer = document.createElement('div');
+            progressBarContainer.classList.add('progress-bar-container');
+            const progressBarFill = document.createElement('div');
+            progressBarFill.classList.add('progress-bar-fill');
+            progressBarFill.id = `progress-${cellElement.dataset.row}-${cellElement.dataset.col}`; // Unique ID for each bar
+            progressBarContainer.appendChild(progressBarFill);
+            cellElement.appendChild(progressBarContainer);
         }
     } else {
         cellElement.classList.add('empty');
@@ -272,10 +281,20 @@ function gameLoop() {
         for (let c = 0; c < 3; c++) {
             const plant = game.plot[r][c];
             if (plant && !plant.isGrown) {
-                if (Date.now() - plant.plantedTime >= plant.growTime) {
+                const now = Date.now();
+                const elapsedTime = now - plant.plantedTime;
+                const progress = Math.min(1, elapsedTime / plant.growTime); // Calculate progress (0 to 1)
+                const percentage = Math.floor(progress * 100);
+
+                const cellElement = plotGrid.children[r * 3 + c];
+                const progressBarFill = cellElement.querySelector(`#progress-${r}-${c}`);
+                if (progressBarFill) {
+                    progressBarFill.style.width = `${percentage}%`;
+                }
+
+                if (progress >= 1) {
                     plant.isGrown = true;
-                    const cellElement = plotGrid.children[r * 3 + c];
-                    updateCellVisual(cellElement, plant);
+                    updateCellVisual(cellElement, plant); // Update visual to grown state
                     showMessage(`${plant.name} at (${r},${c}) has grown!`, 'success');
                     stateChanged = true; // Mark that a change occurred
                 }
