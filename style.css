@@ -17,7 +17,7 @@ body {
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15), -5px -5px 15px rgba(255, 255, 255, 0.5);
     padding: 35px;
     width: 100%;
-    max-width: 950px;
+    max-width: 950px; /* Keeps the game contained on very wide screens */
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -86,21 +86,30 @@ h2 {
     color: #66bb6a;
 }
 
+/* NEW: Game Content Layout using CSS Grid */
 .game-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 35px;
-    justify-content: center;
+    display: grid; /* Use grid for main layout */
+    grid-template-columns: 1fr 1.2fr; /* Garden Plot takes 1 fraction, Shop/Actions/Inventory take 1.2 fractions */
+    gap: 35px; /* Space between the two main columns */
+    align-items: start; /* Align content to the top within grid cells */
+    justify-content: center; /* Center the grid if total width is less than max-width */
 }
 
-.plot-section, .shop-actions-section {
-    flex: 1;
-    min-width: 320px;
+.plot-section,
+.shop-actions-section {
     background-color: #f5f5f5;
     border-radius: 12px;
     padding: 25px;
     box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #e0e0e0;
+    /* Removed min-width and flex properties as grid handles sizing */
+}
+
+/* NEW: Shop Actions Section Internal Layout (Flexbox) */
+.shop-actions-section {
+    display: flex;
+    flex-direction: column; /* Stack shop, actions, and inventory vertically */
+    gap: 30px; /* Space between the sub-sections (Shop, Actions, Inventory) */
 }
 
 .plot-grid {
@@ -241,13 +250,96 @@ h2 {
     background-color: #42a5f5;
 }
 
+/* Inventory Styling */
+.inventory-section {
+    /* No margin-top needed here, gap on parent .shop-actions-section handles spacing */
+    background-color: #e0f2f7;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #b2ebf2;
+}
+
+.inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.inventory-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.1s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.inventory-item.selected {
+    border-color: #ffc107;
+    background-color: #fffde7;
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+    transform: scale(1.02);
+}
+
+
+.seed-emoji {
+    font-size: 1.8em;
+    margin-right: 10px;
+}
+
+.seed-name {
+    font-weight: bold;
+    color: #4CAF50;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.seed-quantity {
+    font-weight: bold;
+    color: #757575;
+    margin-right: 15px;
+    min-width: 30px;
+    text-align: right;
+}
+
+.plant-from-inventory-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.plant-from-inventory-btn:hover {
+    background-color: #43A047;
+    transform: translateY(-1px);
+}
+
+.no-seeds-message {
+    color: #757575;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+
+/* Media Query for smaller screens */
 @media (max-width: 768px) {
     .game-container {
         padding: 20px;
         gap: 15px;
     }
     .game-content {
-        flex-direction: column;
+        grid-template-columns: 1fr; /* Stack into a single column on small screens */
         gap: 20px;
     }
     .header-info {
@@ -280,6 +372,22 @@ h2 {
     .buy-seed-btn, .action-btn {
         padding: 10px 15px;
         font-size: 0.95em;
+    }
+
+    /* Adjust inventory for smaller screens */
+    .inventory-section {
+        padding: 15px;
+    }
+    .inventory-item {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+    .seed-emoji {
+        font-size: 1.5em;
+    }
+    .plant-from-inventory-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
     }
 }
 
