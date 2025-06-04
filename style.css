@@ -86,13 +86,12 @@ h2 {
     color: #66bb6a;
 }
 
-/* NEW: Game Content Layout using CSS Grid */
 .game-content {
-    display: grid; /* Use grid for main layout */
-    grid-template-columns: 1fr 1.2fr; /* Garden Plot takes 1 fraction, Shop/Actions/Inventory take 1.2 fractions */
-    gap: 35px; /* Space between the two main columns */
-    align-items: start; /* Align content to the top within grid cells */
-    justify-content: center; /* Center the grid if total width is less than max-width */
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 35px;
+    align-items: start;
+    justify-content: center;
 }
 
 .plot-section,
@@ -102,14 +101,12 @@ h2 {
     padding: 25px;
     box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.08);
     border: 1px solid #e0e0e0;
-    /* Removed min-width and flex properties as grid handles sizing */
 }
 
-/* NEW: Shop Actions Section Internal Layout (Flexbox) */
 .shop-actions-section {
     display: flex;
-    flex-direction: column; /* Stack shop, actions, and inventory vertically */
-    gap: 30px; /* Space between the sub-sections (Shop, Actions, Inventory) */
+    flex-direction: column;
+    gap: 30px;
 }
 
 .plot-grid {
@@ -126,10 +123,10 @@ h2 {
     height: 110px;
     border: 3px solid #81c784;
     background-color: #aed581;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: flex; /* Changed to flex for centering content */
+    flex-direction: column; /* Stack icon and text vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
     font-size: 0.9em;
     font-weight: bold;
     color: #424242;
@@ -140,6 +137,7 @@ h2 {
     text-transform: uppercase;
     position: relative;
     overflow: hidden;
+    text-align: center; /* Ensure text lines are centered */
 }
 
 .plot-cell:hover {
@@ -153,6 +151,7 @@ h2 {
     border-color: #90caf9;
     color: #64b5f6;
     background-image: none;
+    /* Removed justify-content: flex-start; and padding-top: 0; */
 }
 
 .plot-cell.planted {
@@ -160,9 +159,8 @@ h2 {
     border-color: #ffb74d;
     color: #fb8c00;
     font-size: 0.9em;
-    padding-top: 0;
     background-image: none;
-    justify-content: flex-start;
+    /* Removed justify-content: flex-start; and padding-top: 0; */
 }
 
 .plot-cell.grown {
@@ -171,27 +169,64 @@ h2 {
     color: #333;
     font-size: 1.1em;
     font-weight: bold;
-    justify-content: center;
+    /* Removed justify-content: center; */
 }
 
+/* New CSS for multi-harvest plants that are ready */
+.plot-cell.multi-harvest-ready {
+    border-color: #6a9c7e;
+    background-color: #d1e7d8;
+    box-shadow: 0 0 15px rgba(106, 156, 126, 0.5), inset 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Sizing for growth stages - SCALED DOWN */
+.plot-cell .plant-icon.small {
+    font-size: 1.4em; /* Smaller for initial stages */
+}
+
+.plot-cell .plant-icon.medium {
+    font-size: 1.8em; /* Slightly larger */
+}
+
+.plot-cell .plant-icon.large {
+    font-size: 2.2em; /* More developed plants */
+}
+
+.plot-cell .plant-icon.xlarge {
+    font-size: 2.6em; /* Fully grown plants - now significantly smaller */
+}
+
+
+/* Main icon styling - Adjusted fallback size and removed conflicting margins */
 .plot-cell .plant-icon,
 .plot-cell .plot-icon {
-    font-size: 2.8em;
-    line-height: 1;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    font-size: 2.2em; /* Adjusted fallback size */
+    line-height: 1; /* Helps with vertical alignment of emoji */
+    margin: 0; /* Remove specific margins, let flexbox gap handle spacing */
+    padding: 0;
     display: block;
+    transition: font-size 0.3s ease-out; /* Smooth transition when size changes */
 }
 
+/* New: Gap between icon and text for planted/grown states */
+.plot-cell.planted, .plot-cell.grown {
+    gap: 5px; /* Adds a small space between the icon and text */
+}
+
+
+/* Removed these specific overrides as parent centering will handle it */
+/*
 .plot-cell.empty .plot-icon {
     margin-top: auto;
     margin-bottom: auto;
 }
-
 .plot-cell.grown .plant-icon {
     margin-top: auto;
     margin-bottom: auto;
 }
+*/
+
 
 .progress-bar-container {
     position: absolute;
@@ -252,7 +287,6 @@ h2 {
 
 /* Inventory Styling */
 .inventory-section {
-    /* No margin-top needed here, gap on parent .shop-actions-section handles spacing */
     background-color: #e0f2f7;
     border-radius: 12px;
     padding: 20px;
@@ -339,7 +373,7 @@ h2 {
         gap: 15px;
     }
     .game-content {
-        grid-template-columns: 1fr; /* Stack into a single column on small screens */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
     .header-info {
@@ -362,6 +396,12 @@ h2 {
         width: 90px;
         height: 90px;
         font-size: 0.75em;
+        /* Ensure centering is consistent with main .plot-cell */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
     .progress-bar-container {
         bottom: 5px;
@@ -388,6 +428,32 @@ h2 {
     .plant-from-inventory-btn {
         padding: 6px 12px;
         font-size: 0.8em;
+    }
+
+    /* Sizing for growth stages - SCALED DOWN for small screens */
+    .plot-cell .plant-icon.small {
+        font-size: 1.2em;
+    }
+    .plot-cell .plant-icon.medium {
+        font-size: 1.6em;
+    }
+    .plot-cell .plant-icon.large {
+        font-size: 2.0em;
+    }
+    .plot-cell .plant-icon.xlarge {
+        font-size: 2.4em;
+    }
+
+    /* Main icon styling - Adjusted fallback for small screens */
+    .plot-cell .plant-icon,
+    .plot-cell .plot-icon {
+        font-size: 2.0em; /* Adjust fallback size for small screens */
+        margin: 0; /* Ensure no conflicting margins */
+    }
+
+    /* Gap between icon and text for planted/grown states on small screens */
+    .plot-cell.planted, .plot-cell.grown {
+        gap: 3px;
     }
 }
 
