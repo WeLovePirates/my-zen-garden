@@ -8,12 +8,12 @@ const seedShopData = {
         minWeight: 0.1,    // Realistic min weight for a carrot (0.1 kg = 100g)
         maxWeight: 0.4,    // Realistic max weight for a carrot (0.4 kg = 400g)
         name: "Carrot",
-        seedEmoji: "🥕",
+        seedIcon: "sprites/seed_box.png", // Generic seed box icon
         stages: [
-            { threshold: 0, emoji: "🌱", sizeClass: "small" },
-            { threshold: 0.3, emoji: "🥕", sizeClass: "medium" },
-            { threshold: 0.7, emoji: "🥕", sizeClass: "large" },
-            { threshold: 1, emoji: "🥕", sizeClass: "xlarge" }
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
+            { threshold: 0.7, imagePath: "sprites/carrot.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/carrot.png", sizeClass: "xlarge" }
         ]
     },
     "tomato": {
@@ -23,12 +23,12 @@ const seedShopData = {
         minWeight: 0.15,   // Realistic min weight for a tomato (0.15 kg = 150g)
         maxWeight: 0.6,    // Realistic max weight for a tomato (0.6 kg = 600g)
         name: "Tomato",
-        seedEmoji: "🍅",
+        seedIcon: "sprites/seed_box.png", // Generic seed box icon
         stages: [
-            { threshold: 0, emoji: "🌱", sizeClass: "small" },
-            { threshold: 0.25, emoji: "🌿", sizeClass: "medium" },
-            { threshold: 0.6, emoji: "🍅", sizeClass: "large" },
-            { threshold: 1, emoji: "🍅", sizeClass: "xlarge" }
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.25, imagePath: "sprites/herb.png", sizeClass: "medium" }, // Using herb for early growth
+            { threshold: 0.6, imagePath: "sprites/tomato.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/tomato.png", sizeClass: "xlarge" }
         ]
     },
     "corn": {
@@ -38,12 +38,12 @@ const seedShopData = {
         minWeight: 0.2,    // Realistic min weight for corn (0.2 kg = 200g per cob)
         maxWeight: 0.5,    // Realistic max weight for corn (0.5 kg = 500g per cob)
         name: "Corn",
-        seedEmoji: "🌽",
+        seedIcon: "sprites/seed_box.png", // Generic seed box icon
         stages: [
-            { threshold: 0, emoji: "🌱", sizeClass: "small" },
-            { threshold: 0.2, emoji: "🌾", sizeClass: "medium" },
-            { threshold: 0.5, emoji: "🌽", sizeClass: "large" },
-            { threshold: 1, emoji: "🌽", sizeClass: "xlarge" }
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.2, imagePath: "sprites/herb.png", sizeClass: "medium" }, // Using corn for early growth as well
+            { threshold: 0.5, imagePath: "sprites/corn.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/corn.png", sizeClass: "xlarge" }
         ]
     }
 };
