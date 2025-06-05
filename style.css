@@ -275,7 +275,7 @@ h2 {
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* NEW: Styling for the shop seed icons within buttons */
+/* Styling for the shop seed icons within buttons */
 .shop-seed-icon {
     width: 24px; /* Adjust size as needed, roughly 1.5em for small screens */
     height: 24px;
@@ -312,7 +312,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    background-color: #ffffff; /* Default white background for items */
     border: 1px solid #c8e6c9;
     border-radius: 8px;
     padding: 10px 15px;
@@ -327,7 +327,7 @@ h2 {
     transform: scale(1.02);
 }
 
-/* Styling for the new image-based seed icon */
+/* Styling for the new image-based seed icon and general item icons */
 .seed-icon {
     width: 29px; /* Roughly 1.8em for seed emoji */
     height: 29px;
@@ -376,14 +376,14 @@ h2 {
     margin-top: 15px;
 }
 
-/* NEW: Harvested Items Styling */
+/* Harvested Items Styling */
 .harvested-items-section {
     /* Inherits styles from .inventory-section */
     border-color: #ffd54f; /* A slightly different border color to distinguish */
     background-color: #fff8e1; /* A slightly different background color */
 }
 
-/* NEW/CHANGED: Styling for harvested item details (weight and value) */
+/* Styling for harvested item details (weight and value) */
 .harvested-details {
     color: #555;
     font-size: 0.85em;
@@ -408,6 +408,36 @@ h2 {
     margin-top: 15px;
 }
 
+/* Tools Section Styling */
+#tools-section {
+    border-color: #a5d6a7; /* Pastel green border color */
+    background-color: #e8f5e9; /* Pastel green background color */
+}
+
+.tool-item {
+    /* Ensure tool item background is white like seed inventory items */
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9; /* Match seed inventory border */
+    border-radius: 8px; /* Match seed inventory border-radius */
+    padding: 10px 15px; /* Match seed inventory padding */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05); /* Match seed inventory box-shadow */
+}
+
+
+.tool-name {
+    font-weight: bold;
+    color: #689f38;
+    flex-grow: 1; /* Allow name to take up space */
+    text-align: left;
+}
+
+/* Removed .tool-quantity as shovel is permanent */
+
+.no-tools-message {
+    color: #757575;
+    font-style: italic;
+    margin-top: 15px;
+}
 
 /* Media Query for smaller screens */
 @media (max-width: 768px) {

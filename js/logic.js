@@ -7,10 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initGame() {
+    // Initialize tools here if not already present from save
+    // Shovel is now a permanent item without a quantity
+    if (!game.tools.shovel) {
+        game.tools.shovel = { name: "Shovel", imagePath: "sprites/shovel.png" };
+    }
     updateMoneyDisplay();
     createPlotUI();
     updateInventoryDisplay();
     updateHarvestedItemsDisplay(); // Call to update harvested items
+    updateToolsDisplay(); // NEW: Call to update tools display
     attachEventListeners();
     gameLoop();
     showMessage("Welcome to My Zen Garden! Buy some seeds to get started.", 'info');
@@ -34,10 +40,12 @@ function saveGame() {
                 return null;
             })),
             inventory: game.inventory,
-            harvestedItems: game.harvestedItems
+            harvestedItems: game.harvestedItems,
+            tools: game.tools // Save the tools object
         };
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stateToSave));
         // console.log("Game saved successfully!");
+        updateToolsDisplay(); // NEW: Update tools display on save
     } catch (e) {
         console.error("Error saving game to local storage:", e);
         showMessage("Could not save game. Your browser may be in private mode or storage is full.", 'error');
@@ -59,6 +67,12 @@ function loadGame() {
 
             // Load harvested items
             game.harvestedItems = parsedData.harvestedItems || [];
+
+            // Load tools - ensure shovel is always present and in the new format
+            game.tools = parsedData.tools || {};
+            if (!game.tools.shovel || game.tools.shovel.quantity !== undefined) { // Check for old format or missing
+                game.tools.shovel = { name: "Shovel", imagePath: "sprites/shovel.png" };
+            }
 
 
             game.plot = parsedData.plot.map(row => row.map(savedPlant => {
@@ -168,6 +182,7 @@ function selectSeedForPlanting(seedType) {
         } else {
             showMessage(`You don't have any ${game.seedShop[seedType].name} seeds!`, 'error');
             game.selectedSeedType = null;
+            updateInventoryDisplay();
         }
     }
     updateInventoryDisplay();
@@ -180,7 +195,7 @@ function plantSeed(row, col) {
             return;
         }
         if (game.inventory[game.selectedSeedType] <= 0) {
-            showMessage(`You don't have any ${game.seedShop[game.selectedSeedType].name} seeds left! Selecting a different seed.`, 'error');
+            showMessage(`You don't have any ${game.seedShop[game.selectedSeedType].name} seeds! Selecting a different seed.`, 'error');
             game.selectedSeedType = null;
             updateInventoryDisplay();
             return;

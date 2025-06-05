@@ -8,7 +8,11 @@ const game = {
     seedShop: seedShopData, // Reference to data from data.js
     selectedSeedType: null,
     inventory: {}, // Inventory for seeds
-    harvestedItems: [] // NEW: Inventory for harvested crops (e.g., [{ name: "Carrot", weight: 1.2, sellValue: 24 }])
+    harvestedItems: [], // NEW: Inventory for harvested crops (e.g., [{ name: "Carrot", weight: 1.2, sellValue: 24 }]),
+    tools: {
+        // NEW: Shovel is a permanent tool, no quantity/use count
+        shovel: { name: "Shovel", imagePath: "sprites/shovel.png" }
+    }
 };
 
 // Initialize inventory with all seeds from seedShopData set to 0
