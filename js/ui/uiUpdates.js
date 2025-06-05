@@ -70,17 +70,16 @@ export function updateCellVisual(cellElement, plantObject) {
             progressBarFill.style.width = `${Math.floor(progress * 100)}%`;
             progressBarContainer.appendChild(progressBarFill);
             cellElement.appendChild(progressBarContainer);
-
         } else { // Plant is grown
             cellElement.classList.add('grown');
             const finalStage = seedDetails.stages[seedDetails.stages.length - 1];
-            if (seedDetails.isMultiHarvest && plantObject.harvestsLeft > 0) {
-                 cellElement.classList.add('multi-harvest-ready');
-                 cellElement.innerHTML = `
+            if (seedDetails.isMultiHarvest && (plantObject.harvestsLeft > 0 || plantObject.harvestsLeft === -1)) {
+                cellElement.classList.add('multi-harvest-ready');
+                cellElement.innerHTML = `
                     <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown">
                     ${plantObject.name}<br>
-                    READY (${plantObject.harvestsLeft})
-                 `;
+                    READY ${plantObject.harvestsLeft === -1 ? '' : `(${plantObject.harvestsLeft})`}
+                `;
             } else {
                 cellElement.innerHTML = `
                     <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown">
@@ -95,45 +94,34 @@ export function updateCellVisual(cellElement, plantObject) {
     }
 }
 
+// Function to update the display of inventory items
 export function updateInventoryDisplay() {
-    inventoryDisplay.innerHTML = '';
-
-    if (Object.keys(game.inventory).length !== Object.keys(game.seedShop).length) {
-        for (const seedType in game.seedShop) {
-            game.inventory[seedType] = game.inventory[seedType] || 0;
-        }
-    }
+    inventoryDisplay.innerHTML = ''; // Clear previous content
 
     let hasSeeds = false;
     for (const seedType in game.inventory) {
-        const quantity = game.inventory[seedType];
-        const seedDetails = game.seedShop[seedType];
-
-        if (seedDetails && quantity > 0) {
+        if (game.inventory[seedType] > 0) {
             hasSeeds = true;
-            const inventoryItem = document.createElement('div');
-            inventoryItem.classList.add('inventory-item');
-            inventoryItem.dataset.seed = seedType;
+            const seedDetails = game.seedShop[seedType];
+            const inventoryItemDiv = document.createElement('div');
+            inventoryItemDiv.classList.add('inventory-item');
             if (game.selectedSeedType === seedType) {
-                inventoryItem.classList.add('selected');
+                inventoryItemDiv.classList.add('selected');
             }
-
-            // Updated HTML structure to match tools display
-            inventoryItem.innerHTML = `
-                <div style="display: flex; align-items: center;">
-                    <img class="seed-icon" src="${seedDetails.seedIcon}" alt="${seedDetails.name} Seed">
-                    <span class="seed-name">${seedDetails.name}</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <span class="seed-quantity">x${quantity}</span>
-                    <button class="plant-from-inventory-btn" data-seed="${seedType}">Plant</button>
-                </div>
+            inventoryItemDiv.innerHTML = `
+                <img class="seed-icon" src="${seedDetails.seedIcon}" alt="${seedDetails.name} Seed">
+                <span class="seed-name">${seedDetails.name} Seeds</span>
+                <span class="seed-quantity">x${game.inventory[seedType]}</span>
+                <button class="plant-from-inventory-btn" data-seed="${seedType}">
+                    ${game.selectedSeedType === seedType ? 'Selected' : 'Plant'}
+                </button>
             `;
-            inventoryDisplay.appendChild(inventoryItem);
+            inventoryDisplay.appendChild(inventoryItemDiv);
         }
     }
+
     if (!hasSeeds) {
-        inventoryDisplay.innerHTML = '<p class="no-seeds-message">Your inventory is empty. Buy seeds from the shop!</p>';
+        inventoryDisplay.innerHTML = '<p class="no-seeds-message">Your seed inventory is empty!</p>';
     }
 }
 
@@ -142,18 +130,15 @@ export function updateHarvestedItemsDisplay() {
     harvestedItemsDisplay.innerHTML = ''; // Clear previous content
 
     if (game.harvestedItems.length === 0) {
-        harvestedItemsDisplay.innerHTML = '<p class="no-harvested-message">You haven\'t harvested any crops yet!</p>';
-        sellAllHarvestedBtn.style.display = 'none'; // Hide sell all button if no items
+        harvestedItemsDisplay.innerHTML = '<p class="no-harvested-message">No harvested items yet!</p>';
+        sellAllHarvestedBtn.style.display = 'none'; // Hide "Sell All" button
     } else {
-        sellAllHarvestedBtn.style.display = 'block'; // Show sell all button
+        sellAllHarvestedBtn.style.display = 'block'; // Show "Sell All" button
         game.harvestedItems.forEach((item, index) => {
             const harvestedItemDiv = document.createElement('div');
-            harvestedItemDiv.classList.add('inventory-item', 'harvested-item'); // Reuse inventory-item styling
-            // Use the image path for harvested items
-            const harvestedImagePath = game.seedShop[item.name.toLowerCase()] ? game.seedShop[item.name.toLowerCase()].stages[game.seedShop[item.name.toLowerCase()].stages.length - 1].imagePath : '';
-
+            harvestedItemDiv.classList.add('inventory-item', 'harvested-item'); // Apply similar styling classes
             harvestedItemDiv.innerHTML = `
-                <img class="seed-icon" src="${harvestedImagePath}" alt="${item.name}">
+                <img class="seed-icon" src="sprites/${item.name.toLowerCase()}.png" alt="${item.name}">
                 <span class="seed-name">${item.name}</span>
                 <span class="harvested-details">
                     (Wt: ${item.weight.toFixed(2)}kg, Val: ${item.sellValue})
@@ -167,17 +152,20 @@ export function updateHarvestedItemsDisplay() {
 
 // Function to update the display of tools
 export function updateToolsDisplay() {
-    toolsListDisplay.innerHTML = '';
+    toolsListDisplay.innerHTML = ''; // Clear previous content
 
     if (Object.keys(game.tools).length === 0) {
         toolsListDisplay.innerHTML = '<p class="no-tools-message">You have no tools yet!</p>';
     } else {
         for (const toolKey in game.tools) {
             const tool = game.tools[toolKey];
+            // Since shovel is a permanent item, we display it if it exists
             if (tool) {
                 const toolItemDiv = document.createElement('div');
-                toolItemDiv.classList.add('inventory-item', 'tool-item');
+                // Apply similar styling classes to inventory items
+                toolItemDiv.classList.add('inventory-item', 'tool-item'); 
                 
+                // Add selected class if this tool is selected
                 if (game.selectedTool === toolKey) {
                     toolItemDiv.classList.add('selected');
                 }

@@ -17,16 +17,19 @@ export const seedShopData = {
         ]
     },
     "tomato": {
-        price: 50,
-        growTime: 45 * 1000, // 45 seconds
-        baseSellPrice: 600, // Adjusted for smaller profit margins (from previous conversation)
-        minWeight: 0.15,   // Realistic min weight for a tomato (0.15 kg = 150g)
-        maxWeight: 0.6,    // Realistic max weight for a tomato (0.6 kg = 600g)
+        price: 150,
+        growTime: 1.5 * 60 * 1000, // 1.5 minutes
+        baseSellPrice: 1500,
+        minWeight: 0.1,
+        maxWeight: 0.3,
         name: "Tomato",
-        seedIcon: "sprites/seed_box.png", // Generic seed box icon
+        seedIcon: "sprites/seed_box.png",
+        // Add these two properties:
+        isMultiHarvest: true,    // Makes the crop multi-harvestable
+        harvestsLeft: -1,         // Number of times it can be harvested before needing replanting
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
-            { threshold: 0.25, imagePath: "sprites/herb.png", sizeClass: "medium" }, // Using herb for early growth
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
             { threshold: 0.6, imagePath: "sprites/tomato.png", sizeClass: "large" },
             { threshold: 1, imagePath: "sprites/tomato.png", sizeClass: "xlarge" }
         ]
@@ -41,8 +44,8 @@ export const seedShopData = {
         seedIcon: "sprites/seed_box.png", // Generic seed box icon
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
-            { threshold: 0.2, imagePath: "sprites/herb.png", sizeClass: "medium" }, // Using corn for early growth as well
-            { threshold: 0.5, imagePath: "sprites/corn.png", sizeClass: "large" },
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" }, // Using corn stalk for early growth
+            { threshold: 0.7, imagePath: "sprites/corn.png", sizeClass: "large" },
             { threshold: 1, imagePath: "sprites/corn.png", sizeClass: "xlarge" }
         ]
     }
