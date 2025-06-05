@@ -118,12 +118,16 @@ export function updateInventoryDisplay() {
                 inventoryItem.classList.add('selected');
             }
 
-            // Use the seedIcon from data.js
+            // Updated HTML structure to match tools display
             inventoryItem.innerHTML = `
-                <img class="seed-icon" src="${seedDetails.seedIcon}" alt="${seedDetails.name} Seed">
-                <span class="seed-name">${seedDetails.name}</span>
-                <span class="seed-quantity">x${quantity}</span>
-                <button class="plant-from-inventory-btn" data-seed="${seedType}">Plant</button>
+                <div style="display: flex; align-items: center;">
+                    <img class="seed-icon" src="${seedDetails.seedIcon}" alt="${seedDetails.name} Seed">
+                    <span class="seed-name">${seedDetails.name}</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <span class="seed-quantity">x${quantity}</span>
+                    <button class="plant-from-inventory-btn" data-seed="${seedType}">Plant</button>
+                </div>
             `;
             inventoryDisplay.appendChild(inventoryItem);
         }
@@ -163,23 +167,32 @@ export function updateHarvestedItemsDisplay() {
 
 // Function to update the display of tools
 export function updateToolsDisplay() {
-    toolsListDisplay.innerHTML = ''; // Clear previous content
+    toolsListDisplay.innerHTML = '';
 
     if (Object.keys(game.tools).length === 0) {
         toolsListDisplay.innerHTML = '<p class="no-tools-message">You have no tools yet!</p>';
     } else {
         for (const toolKey in game.tools) {
             const tool = game.tools[toolKey];
-            // Since shovel is a permanent item, we display it if it exists
             if (tool) {
                 const toolItemDiv = document.createElement('div');
-                // Apply similar styling classes to harvested items
-                toolItemDiv.classList.add('inventory-item', 'tool-item', 'harvested-item'); 
+                toolItemDiv.classList.add('inventory-item', 'tool-item');
                 
+                if (game.selectedTool === toolKey) {
+                    toolItemDiv.classList.add('selected');
+                }
+                
+                // Using the same structure as inventory items
                 toolItemDiv.innerHTML = `
-                    <img class="seed-icon" src="${tool.imagePath}" alt="${tool.name}">
-                    <span class="tool-name">${tool.name}</span>
-                    <button class="plant-from-inventory-btn sell-harvested-btn" disabled>Use</button>
+                    <div style="display: flex; align-items: center;">
+                        <img class="seed-icon" src="${tool.imagePath}" alt="${tool.name}">
+                        <span class="tool-name">${tool.name}</span>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <button class="tool-use-btn" data-tool="${toolKey}">
+                            ${game.selectedTool === toolKey ? 'Selected' : 'Use'}
+                        </button>
+                    </div>
                 `;
                 toolsListDisplay.appendChild(toolItemDiv);
             }
