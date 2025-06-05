@@ -26,7 +26,7 @@ function saveGame() {
                     return {
                         name: cell.name,
                         plantedTime: cell.plantedTime,
-                        isGrown: cell.isGgrown,
+                        isGrown: cell.isGrown,
                         isMultiHarvest: cell.isMultiHarvest,
                         harvestsLeft: cell.harvestsLeft
                     };
@@ -46,246 +46,271 @@ function saveGame() {
 
 function loadGame() {
     try {
-        const savedState = localStorage.getItem(LOCAL_STORAGE_KEY);
-        if (savedState) {
-            const parsedState = JSON.parse(savedState);
+        const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
 
-            // Restore money
-            game.money = parsedState.money || 100;
+            game.money = parsedData.money;
 
-            // Restore plot, ensuring plantedTime is a Date object if needed, and handling new properties
-            game.plot = parsedState.plot.map(row => row.map(cell => {
-                if (cell) {
-                    return {
-                        name: cell.name,
-                        plantedTime: cell.plantedTime, // stored as timestamp
-                        isGrown: cell.isGrown,
-                        isMultiHarvest: cell.isMultiHarvest || false, // Default to false if not present
-                        harvestsLeft: cell.harvestsLeft !== undefined ? cell.harvestsLeft : 0 // Default or adjust based on your multi-harvest needs
-                    };
+            // Ensure all seed types from seedShopData are present in inventory, initializing new ones to 0
+            for(const seedType in game.seedShop) {
+                game.inventory[seedType] = parsedData.inventory?.[seedType] ?? 0;
+            }
+
+            // Load harvested items
+            game.harvestedItems = parsedData.harvestedItems || [];
+
+
+            game.plot = parsedData.plot.map(row => row.map(savedPlant => {
+                if (savedPlant) {
+                    const seedDetails = game.seedShop[savedPlant.name.toLowerCase()];
+                    if (seedDetails) {
+                        return {
+                            name: seedDetails.name,
+                            growTime: seedDetails.growTime,
+                            plantedTime: savedPlant.plantedTime,
+                            isGrown: savedPlant.isGrown,
+                            isMultiHarvest: seedDetails.isMultiHarvest || false,
+                            harvestsLeft: savedPlant.isMultiHarvest ? (savedPlant.harvestsLeft !== undefined ? savedPlant.harvestsLeft : seedDetails.harvestsLeft) : 1
+                        };
+                    }
                 }
                 return null;
             }));
-
-            // Restore inventory, ensuring all seed types are present even if not in save
-            game.inventory = {};
-            for (const seedType in game.seedShop) {
-                game.inventory[seedType] = parsedState.inventory[seedType] !== undefined ? parsedState.inventory[seedType] : 0;
-            }
-
-            // Restore harvested items (ensure it's an array)
-            game.harvestedItems = Array.isArray(parsedState.harvestedItems) ? parsedState.harvestedItems : [];
-
-            // console.log("Game loaded successfully!");
+            showMessage("Game loaded from previous session!", 'info');
         } else {
-            // console.log("No saved game found. Starting new game.");
+            // console.log("No saved game found.");
         }
     } catch (e) {
         console.error("Error loading game from local storage:", e);
-        showMessage("Could not load saved game. Starting a new game.", 'error');
-        // Reset game state in case of loading error
-        game.money = 100;
-        game.plot = Array(3).fill(null).map(() => Array(3).fill(null));
-        game.selectedSeedType = null;
-        game.inventory = {};
-        for (const seedType in game.seedShop) {
-            game.inventory[seedType] = 0;
-        }
-        game.harvestedItems = [];
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        showMessage("Could not load game. Saved data might be corrupt. Starting new game.", 'error');
     }
 }
 
+
 // --- Event Listeners ---
 function attachEventListeners() {
-    // Buy Seed Buttons
     buySeedButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const seedType = button.dataset.seed;
+        button.addEventListener('click', (event) => {
+            const seedType = event.target.dataset.seed;
             handleBuySeed(seedType);
         });
     });
 
-    // Collect All Button
     collectAllBtn.addEventListener('click', collectAllHarvestablePlants);
 
-    // Sell All Harvested Crops Button
     sellAllHarvestedBtn.addEventListener('click', sellAllHarvestedItems);
 
-    // Plot Grid clicks (for planting and harvesting)
+
     plotGrid.addEventListener('click', (event) => {
         const cell = event.target.closest('.plot-cell');
         if (cell) {
-            const r = parseInt(cell.dataset.row);
-            const c = parseInt(cell.dataset.col);
+            const row = parseInt(cell.dataset.row);
+            const col = parseInt(cell.dataset.col);
 
-            // --- SHOVEL TOOL INTEGRATION START ---
-            if (game.shovelActive) {
-                handleShovelAction(r, c);
-                return; // Prevent other actions when shovel is active
+            const plant = game.plot[row][col];
+            if (plant && plant.isGrown) { // If there's a grown plant, harvest it
+                harvestPlant(row, col);
+            } else if (game.selectedSeedType) { // If no grown plant, but a seed is selected, plant it
+                plantSeed(row, col);
+            } else if (plant === null) { // If empty and no seed selected, inform user
+                showMessage("Select a seed from your inventory to plant, or wait for plants to grow!", 'info');
+            } else if (plant && !plant.isGrown) { // If there's a plant but not grown
+                showMessage(`${plant.name} is still growing...`, 'info');
             }
-            // --- SHOVEL TOOL INTEGRATION END ---
-
-            const plant = game.plot[r][c];
-
-            if (plant && plant.isGrown) {
-                harvestPlant(r, c);
-            } else if (!plant && game.selectedSeedType) {
-                plantSeed(r, c);
-            } else if (!plant && !game.selectedSeedType) {
-                showMessage("Select a seed from your inventory first!", 'info');
-            } else if (plant && !plant.isGrown) {
-                showMessage(`This ${plant.name} is still growing!`, 'info');
-            }
+            saveGame();
         }
     });
 
-    // Inventory "Plant" buttons
     inventoryDisplay.addEventListener('click', (event) => {
-        const targetBtn = event.target.closest('.plant-from-inventory-btn');
-        if (targetBtn && targetBtn.dataset.seedType) {
-            const seedType = targetBtn.dataset.seedType;
+        const targetButton = event.target.closest('.plant-from-inventory-btn');
+        if (targetButton) {
+            const seedType = targetButton.dataset.seed;
             selectSeedForPlanting(seedType);
         }
     });
 
-    // Harvested Items "Sell" buttons
     harvestedItemsDisplay.addEventListener('click', (event) => {
-        const sellBtn = event.target.closest('.sell-harvested-btn');
-        if (sellBtn && sellBtn.dataset.index) {
-            const index = parseInt(sellBtn.dataset.index);
-            sellHarvestedItem(index);
+        const targetButton = event.target.closest('.sell-harvested-btn');
+        if (targetButton) {
+            const itemIndex = parseInt(targetButton.dataset.index);
+            sellHarvestedItem(itemIndex);
         }
     });
-
-    // --- SHOVEL TOOL EVENT LISTENER ---
-    if (shovelToolBtn) { // Check if the element exists
-        shovelToolBtn.addEventListener('click', toggleShovelTool);
-    }
 }
 
-// --- Seed & Plant Logic ---
+// --- Game Logic Functions ---
 function handleBuySeed(seedType) {
-    const seed = game.seedShop[seedType];
-    if (seed) {
-        if (game.money >= seed.price) {
-            game.money -= seed.price;
+    const seedDetails = game.seedShop[seedType];
+    if (seedDetails) {
+        if (game.money >= seedDetails.price) {
+            game.money -= seedDetails.price;
             game.inventory[seedType]++;
             updateMoneyDisplay();
             updateInventoryDisplay();
-            showMessage(`Bought 1 ${seed.name} seed for ${seed.price} coins!`, 'success');
+            showMessage(`Bought ${seedDetails.name} Seed for ${seedDetails.price} coins! It's in your inventory.`, 'success');
             saveGame();
         } else {
-            showMessage(`Not enough money to buy ${seed.name} seed! Needs ${seed.price} coins.`, 'error');
+            showMessage("Not enough money to buy that seed!", 'error');
         }
     }
 }
 
 function selectSeedForPlanting(seedType) {
-    if (game.inventory[seedType] > 0) {
-        game.selectedSeedType = seedType;
-        showMessage(`Selected ${game.seedShop[seedType].name} seed. Click an empty plot to plant!`, 'info');
-        updateInventoryDisplay(); // Update to show selected state
-        // --- SHOVEL TOOL INTEGRATION: Deselect shovel if a seed is selected ---
-        if (game.shovelActive) {
-            toggleShovelTool();
-        }
+    if (game.selectedSeedType === seedType) {
+        game.selectedSeedType = null;
+        showMessage("Seed deselected. Click a seed to plant.", 'info');
     } else {
-        showMessage(`You don't have any ${game.seedShop[seedType].name} seeds!`, 'error');
+        if (game.inventory[seedType] > 0) {
+            game.selectedSeedType = seedType;
+            showMessage(`Selected ${game.seedShop[seedType].name} seed. Click an EMPTY plot to plant it.`, 'info');
+        } else {
+            showMessage(`You don't have any ${game.seedShop[seedType].name} seeds!`, 'error');
+            game.selectedSeedType = null;
+        }
     }
+    updateInventoryDisplay();
 }
 
 function plantSeed(row, col) {
-    if (game.selectedSeedType && game.inventory[game.selectedSeedType] > 0) {
-        const seedInfo = game.seedShop[game.selectedSeedType];
-        game.plot[row][col] = {
-            name: seedInfo.name,
+    if (game.plot[row][col] === null) {
+        if (!game.selectedSeedType) {
+            showMessage("No seed selected! Select one from your inventory first.", 'error');
+            return;
+        }
+        if (game.inventory[game.selectedSeedType] <= 0) {
+            showMessage(`You don't have any ${game.seedShop[game.selectedSeedType].name} seeds left! Selecting a different seed.`, 'error');
+            game.selectedSeedType = null;
+            updateInventoryDisplay();
+            return;
+        }
+
+        const seedTypeToPlant = game.selectedSeedType;
+        const seedDetails = game.seedShop[seedTypeToPlant];
+
+        const plantInstance = {
+            name: seedDetails.name,
+            growTime: seedDetails.growTime,
             plantedTime: Date.now(),
-            growTime: seedInfo.growTime,
             isGrown: false,
-            // Multi-harvest properties (example for future expansion)
-            isMultiHarvest: seedInfo.multiHarvest || false,
-            harvestsLeft: seedInfo.multiHarvest ? (seedInfo.maxHarvests || 3) : 1 // Example: 3 harvests if multi-harvest
+            isMultiHarvest: seedDetails.isMultiHarvest || false,
+            harvestsLeft: seedDetails.isMultiHarvest ? seedDetails.harvestsLeft : 1
         };
-        game.inventory[game.selectedSeedType]--;
-        game.selectedSeedType = null; // Deselect after planting
-        updateInventoryDisplay();
-        const cellElement = plotGrid.children[row * 3 + col];
-        updateCellVisual(cellElement, game.plot[row][col]);
-        showMessage(`Planted 1 ${seedInfo.name} at (${row},${col})!`, 'success');
-        saveGame();
-    }
-}
+        game.plot[row][col] = plantInstance;
+        game.inventory[seedTypeToPlant]--;
 
-function generateRandomWeight(min, max) {
-    return (Math.random() * (max - min) + min).toFixed(2);
-}
-
-function harvestPlant(row, col) {
-    const plant = game.plot[row][col];
-    if (plant && plant.isGrown) {
-        const seedInfo = game.seedShop[plant.name.toLowerCase()];
-        const weight = generateRandomWeight(seedInfo.minWeight, seedInfo.maxWeight);
-        const sellValue = Math.round(seedInfo.baseSellPrice * weight); // Value scales with weight
-
-        game.harvestedItems.push({
-            name: plant.name,
-            weight: parseFloat(weight), // Store as number
-            sellValue: sellValue,
-            imagePath: seedInfo.stages[seedInfo.stages.length - 1].imagePath // Path to the fully grown image
-        });
-
-        // Handle multi-harvest
-        if (plant.isMultiHarvest && plant.harvestsLeft > 1) {
-            plant.harvestsLeft--;
-            plant.isGrown = false; // Reset growth for next harvest
-            plant.plantedTime = Date.now(); // Reset planted time for next growth cycle
-            showMessage(`Harvested 1 ${plant.name}! ${plant.harvestsLeft} harvests left.`, 'success');
+        if (game.inventory[seedTypeToPlant] === 0) {
+            game.selectedSeedType = null;
+            showMessage(`Planted ${plantInstance.name} at (${row},${col})! You've run out of ${plantInstance.name} seeds, so it has been deselected.`, 'info');
         } else {
-            game.plot[row][col] = null; // Clear the plot after single harvest or last multi-harvest
-            showMessage(`Harvested 1 ${plant.name}!`, 'success');
+            showMessage(`Planted ${plantInstance.name} at (${row},${col})! Click another empty plot to plant more or click the seed in inventory to deselect.`, 'success');
         }
 
         const cellElement = plotGrid.children[row * 3 + col];
-        updateCellVisual(cellElement, plant); // Update visual
-        updateHarvestedItemsDisplay(); // Update harvested items list
+        updateCellVisual(cellElement, plantInstance);
+        updateInventoryDisplay();
+
         saveGame();
+    } else {
+        showMessage("That spot is already occupied! Choose an empty plot.", 'error');
     }
 }
 
+// Helper function to generate a random weight
+function generateRandomWeight(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// Harvests a plant, adds it to harvestedItems inventory
+function harvestPlant(row, col) {
+    const plant = game.plot[row][col];
+    if (plant && plant.isGrown) {
+        const seedDetails = game.seedShop[plant.name.toLowerCase()];
+        if (!seedDetails) {
+            console.error(`Seed details not found for ${plant.name}`);
+            showMessage("Error: Plant details missing.", 'error');
+            return;
+        }
+
+        const weight = generateRandomWeight(seedDetails.minWeight, seedDetails.maxWeight);
+        let sellValue;
+
+        // ALL CROPS now use the same linear calculation for value, ensuring weight always increases value
+        const calculatedBaseValue = seedDetails.baseSellPrice * weight;
+        sellValue = Math.round(Math.max(calculatedBaseValue, seedDetails.price)); // Ensure min sell value = seed cost
+
+        game.harvestedItems.push({
+            name: plant.name,
+            weight: parseFloat(weight.toFixed(2)), // Keep weight with 2 decimals for realism
+            sellValue: sellValue, // Stored as a whole number
+            emoji: seedDetails.stages[seedDetails.stages.length - 1].emoji
+        });
+
+        showMessage(`Harvested a ${plant.name} (Weight: ${weight.toFixed(2)}kg, Est. Value: ${sellValue} coins)! It's in your Harvested Crops inventory.`, 'success');
+
+        if (plant.isMultiHarvest && plant.harvestsLeft > 1) {
+            plant.harvestsLeft--;
+            plant.isGrown = false;
+            plant.plantedTime = Date.now(); // Reset grow time
+            const cellElement = plotGrid.children[row * 3 + col];
+            updateCellVisual(cellElement, plant);
+        } else {
+            game.plot[row][col] = null; // Clear the plot
+            const cellElement = plotGrid.children[row * 3 + col];
+            updateCellVisual(cellElement, null);
+            if (plant.isMultiHarvest) { // If it was multi-harvest but now exhausted
+                showMessage(`Fully harvested ${plant.name}. Plot is now empty.`, 'success');
+            }
+        }
+        updateHarvestedItemsDisplay(); // Update display for new item
+        saveGame();
+    } else if (plant && !plant.isGrown) {
+        showMessage(`${plant.name} is not yet grown! Come back later.`, 'error');
+    } else {
+        showMessage("No plant here to harvest.", 'error');
+    }
+}
+
+// Collects all grown plants and harvests them
 function collectAllHarvestablePlants() {
-    let harvestedCount = 0;
+    let plantsHarvested = 0;
     for (let r = 0; r < 3; r++) {
         for (let c = 0; c < 3; c++) {
             const plant = game.plot[r][c];
             if (plant && plant.isGrown) {
-                harvestPlant(r, c); // This will update the plot and UI for each plant
-                harvestedCount++;
+                harvestPlant(r, c); // Use the harvestPlant function
+                plantsHarvested++;
             }
         }
     }
-    if (harvestedCount > 0) {
-        showMessage(`Collected ${harvestedCount} grown plant(s)!`, 'success');
-    } else {
-        showMessage("No plants are ready to be collected.", 'info');
+    if (plantsHarvested === 0) {
+        showMessage("No grown plants to harvest!", 'info');
     }
+    saveGame();
+    updateHarvestedItemsDisplay(); // Ensure display is updated after bulk harvest
 }
 
+// Sells a single harvested item from inventory
 function sellHarvestedItem(index) {
     if (index >= 0 && index < game.harvestedItems.length) {
         const item = game.harvestedItems[index];
         game.money += item.sellValue;
-        game.harvestedItems.splice(index, 1); // Remove the item
+        game.harvestedItems.splice(index, 1); // Remove item from array
 
         updateMoneyDisplay();
         updateHarvestedItemsDisplay();
-        showMessage(`Sold 1 ${item.name} for ${item.sellValue} coins!`, 'success');
+        showMessage(`Sold ${item.name} (Weight: ${item.weight}kg) for ${item.sellValue} coins!`, 'success');
         saveGame();
+    } else {
+        showMessage("Error: Item not found in inventory.", 'error');
     }
 }
 
+// Sells all harvested items from inventory
 function sellAllHarvestedItems() {
     if (game.harvestedItems.length === 0) {
-        showMessage("No crops to sell!", 'info');
+        showMessage("No harvested crops to sell!", 'info');
         return;
     }
 
@@ -294,8 +319,8 @@ function sellAllHarvestedItems() {
         totalEarnings += item.sellValue;
     });
 
-    const numItems = game.harvestedItems.length;
     game.money += totalEarnings;
+    const numItems = game.harvestedItems.length;
     game.harvestedItems = []; // Clear all harvested items
 
     updateMoneyDisplay();
@@ -337,7 +362,7 @@ function gameLoop() {
         }
     }
     if (stateChanged) {
-        saveGame(); // Save game if any plant state has changed
+        saveGame();
     }
     requestAnimationFrame(gameLoop);
 }

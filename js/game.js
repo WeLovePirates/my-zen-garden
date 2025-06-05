@@ -8,8 +8,7 @@ const game = {
     seedShop: seedShopData, // Reference to data from data.js
     selectedSeedType: null,
     inventory: {}, // Inventory for seeds
-    harvestedItems: [], // NEW: Inventory for harvested crops (e.g., [{ name: "Carrot", weight: 1.2, sellValue: 24 }])
-    shovelActive: false // NEW: State for shovel tool
+    harvestedItems: [] // NEW: Inventory for harvested crops (e.g., [{ name: "Carrot", weight: 1.2, sellValue: 24 }])
 };
 
 // Initialize inventory with all seeds from seedShopData set to 0
@@ -27,6 +26,3 @@ const inventoryDisplay = document.getElementById('inventory-list');
 // NEW: UI Elements for harvested items
 const harvestedItemsDisplay = document.getElementById('harvested-items-list');
 const sellAllHarvestedBtn = document.getElementById('sell-all-harvested-btn');
-// NEW: Shovel tool elements
-const shovelToolBtn = document.getElementById('shovel-tool-btn');
-const gameContainer = document.querySelector('.game-container'); // Need to target the main container for cursor change
