@@ -132,7 +132,7 @@ function updateInventoryDisplay() {
     }
 }
 
-// NEW: Function to update the display of harvested items
+// Function to update the display of harvested items
 function updateHarvestedItemsDisplay() {
     harvestedItemsDisplay.innerHTML = ''; // Clear previous content
 
@@ -157,5 +157,33 @@ function updateHarvestedItemsDisplay() {
             `;
             harvestedItemsDisplay.appendChild(harvestedItemDiv);
         });
+    }
+}
+
+// NEW: Function to update the display of tools
+const toolsListDisplay = document.getElementById('tools-list'); // Get the tools list container
+
+function updateToolsDisplay() {
+    toolsListDisplay.innerHTML = ''; // Clear previous content
+
+    if (Object.keys(game.tools).length === 0) {
+        toolsListDisplay.innerHTML = '<p class="no-tools-message">You have no tools yet!</p>';
+    } else {
+        for (const toolKey in game.tools) {
+            const tool = game.tools[toolKey];
+            // Since shovel is a permanent item, we display it if it exists
+            if (tool) {
+                const toolItemDiv = document.createElement('div');
+                // Apply similar styling classes to harvested items
+                toolItemDiv.classList.add('inventory-item', 'tool-item', 'harvested-item'); 
+                
+                toolItemDiv.innerHTML = `
+                    <img class="seed-icon" src="${tool.imagePath}" alt="${tool.name}">
+                    <span class="tool-name">${tool.name}</span>
+                    <button class="plant-from-inventory-btn sell-harvested-btn" disabled>Use</button>
+                `;
+                toolsListDisplay.appendChild(toolItemDiv);
+            }
+        }
     }
 }
