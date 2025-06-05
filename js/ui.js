@@ -57,7 +57,7 @@ function updateCellVisual(cellElement, plantObject) {
             }
             cellElement.classList.add('planted');
             cellElement.innerHTML = `
-                <img class="plant-icon ${currentStage.sizeClass}" src="${currentStage.imagePath}" alt="${plantObject.name} Stage"><br>${plantObject.name}<br>
+                <img class="plant-icon ${currentStage.sizeClass}" src="${currentStage.imagePath}" alt="${plantObject.name} Stage">${plantObject.name}<br>
                 ${stageName}
             `;
 
@@ -76,13 +76,13 @@ function updateCellVisual(cellElement, plantObject) {
             if (seedDetails.isMultiHarvest && plantObject.harvestsLeft > 0) {
                  cellElement.classList.add('multi-harvest-ready');
                  cellElement.innerHTML = `
-                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown"><br>
+                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown">
                     ${plantObject.name}<br>
                     READY (${plantObject.harvestsLeft})
                  `;
             } else {
                 cellElement.innerHTML = `
-                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown"><br>
+                    <img class="plant-icon ${finalStage.sizeClass}" src="${finalStage.imagePath}" alt="${plantObject.name} Grown">
                     ${plantObject.name}<br>
                     READY
                 `;
