@@ -1,6 +1,6 @@
 // js/main.js
 import { game, LOCAL_STORAGE_KEY } from './game/gameState.js';
-import { loadGame, gameLoop } from './game/game.js';
+import { loadGame, gameLoop, startGameLoop } from './game/game.js';
 import { updateMoneyDisplay, createPlotUI, updateInventoryDisplay, updateHarvestedItemsDisplay, updateToolsDisplay, showMessage } from './ui/uiUpdates.js';
 import { attachEventListeners } from './ui/eventListeners.js';
 
@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initGame() {
     // Initialize tools here if not already present from save
-    // Shovel is now a permanent item without a quantity
     if (!game.tools.shovel) {
         game.tools.shovel = { name: "Shovel", imagePath: "sprites/shovel.png" };
     }
     updateMoneyDisplay();
     createPlotUI();
     updateInventoryDisplay();
-    updateHarvestedItemsDisplay(); // Call to update harvested items
-    updateToolsDisplay(); // NEW: Call to update tools display
+    updateHarvestedItemsDisplay();
+    updateToolsDisplay();
     attachEventListeners();
-    gameLoop();
+    // Start the game loop explicitly
+    startGameLoop();
     showMessage("Welcome to My Zen Garden! Buy some seeds to get started.", 'info');
 }
