@@ -1,10 +1,11 @@
-// js/ui.js
+// js/ui/uiUpdates.js
+import { game, moneyDisplay, messageArea, plotGrid, inventoryDisplay, harvestedItemsDisplay, sellAllHarvestedBtn, toolsListDisplay } from '../game/gameState.js';
 
-function updateMoneyDisplay() {
+export function updateMoneyDisplay() {
     moneyDisplay.textContent = game.money;
 }
 
-function showMessage(message, type = 'info') {
+export function showMessage(message, type = 'info') {
     messageArea.textContent = message;
     messageArea.className = `message ${type}`;
     setTimeout(() => {
@@ -15,7 +16,7 @@ function showMessage(message, type = 'info') {
     }, 5000);
 }
 
-function createPlotUI() {
+export function createPlotUI() {
     plotGrid.innerHTML = '';
     for (let r = 0; r < 3; r++) {
         for (let c = 0; c < 3; c++) {
@@ -29,7 +30,7 @@ function createPlotUI() {
     }
 }
 
-function updateCellVisual(cellElement, plantObject) {
+export function updateCellVisual(cellElement, plantObject) {
     cellElement.innerHTML = '';
     cellElement.classList.remove('empty', 'planted', 'grown', 'multi-harvest-ready');
     cellElement.querySelectorAll('.plant-icon').forEach(icon => {
@@ -94,7 +95,7 @@ function updateCellVisual(cellElement, plantObject) {
     }
 }
 
-function updateInventoryDisplay() {
+export function updateInventoryDisplay() {
     inventoryDisplay.innerHTML = '';
 
     if (Object.keys(game.inventory).length !== Object.keys(game.seedShop).length) {
@@ -133,7 +134,7 @@ function updateInventoryDisplay() {
 }
 
 // Function to update the display of harvested items
-function updateHarvestedItemsDisplay() {
+export function updateHarvestedItemsDisplay() {
     harvestedItemsDisplay.innerHTML = ''; // Clear previous content
 
     if (game.harvestedItems.length === 0) {
@@ -160,10 +161,8 @@ function updateHarvestedItemsDisplay() {
     }
 }
 
-// NEW: Function to update the display of tools
-const toolsListDisplay = document.getElementById('tools-list'); // Get the tools list container
-
-function updateToolsDisplay() {
+// Function to update the display of tools
+export function updateToolsDisplay() {
     toolsListDisplay.innerHTML = ''; // Clear previous content
 
     if (Object.keys(game.tools).length === 0) {
