@@ -8,6 +8,7 @@ export const game = {
     plot: Array(3).fill(null).map(() => Array(3).fill(null)), // 3x3 array for plot
     seedShop: seedShopData, // Reference to data from seedData.js
     selectedSeedType: null,
+    selectedTool: null, // Add this line to track the selected tool
     inventory: {}, // Inventory for seeds
     harvestedItems: [], // Inventory for harvested crops
     tools: {

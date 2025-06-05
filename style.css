@@ -339,11 +339,12 @@ h2 {
 .seed-name {
     font-weight: bold;
     color: #4CAF50;
-    flex-shrink: 0; /* Prevent it from shrinking too much */
+    flex-shrink: 0;
     text-align: left;
-    margin-right: 10px; /* Add some space between name and details */
+    margin-right: 10px;
+    display: flex;      /* Added to ensure vertical alignment */
+    align-items: center; /* Added to ensure vertical alignment */
 }
-
 .seed-quantity {
     font-weight: bold;
     color: #757575;
@@ -423,7 +424,6 @@ h2 {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05); /* Match seed inventory box-shadow */
 }
 
-
 .tool-name {
     font-weight: bold;
     color: #689f38;
@@ -437,6 +437,35 @@ h2 {
     color: #757575;
     font-style: italic;
     margin-top: 15px;
+}
+
+.tool-item.selected {
+    border-color: #ffc107;  /* Yellow border color matching inventory items */
+    background-color: #fffde7;  /* Light yellow background matching inventory items */
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);  /* Yellow glow effect */
+    transform: scale(1.02);  /* Slight scale up effect */
+}
+
+.tool-use-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tool-item.selected .tool-use-btn {
+    background-color: #43A047;  /* Slightly darker green when selected */
+}
+
+.tool-use-btn:hover {
+    background-color: #43A047;
+    transform: translateY(-1px);
 }
 
 /* Media Query for smaller screens */
@@ -491,12 +520,22 @@ h2 {
         padding: 15px;
     }
     .inventory-item {
-        padding: 8px 10px;
-        font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  /* Ensure vertical centering */
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.1s, box-shadow 0.2s, background-color 0.2s;
     }
-    .seed-icon { /* Adjusted for small screens */
-        width: 24px; /* Roughly 1.5em */
-        height: 24px;
+    .seed-icon {
+    width: 29px;
+    height: 29px;
+    object-fit: contain;
+    margin-right: 5px;  /* Reduced from 10px to bring text closer to icon */
+    flex-shrink: 0;
     }
     .plant-from-inventory-btn {
         padding: 6px 12px;
