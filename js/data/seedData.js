@@ -1,6 +1,6 @@
-// js/data.js
+// js/data/seedData.js
 
-const seedShopData = {
+export const seedShopData = {
     "carrot": {
         price: 10,
         growTime: 15 * 1000, // 15 seconds
