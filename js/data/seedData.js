@@ -5,10 +5,11 @@ export const seedShopData = {
         growTime: 16.5 * 1000,
         minWeight: 0.1,
         maxWeight: 0.4,
-        minSellPrice: 15,  // Added min sell price
-        maxSellPrice: 35,  // Added max sell price
+        minSellPrice: 15,
+        maxSellPrice: 35,
         name: "Carrot",
         seedIcon: "sprites/seed_box.png",
+        stockRate: 1.0, // 100% chance to appear
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
@@ -22,10 +23,11 @@ export const seedShopData = {
         growTime: 1.5 * 60 * 1000,
         minWeight: 0.25,
         maxWeight: 1.02,
-        minSellPrice: 100,  // Added min sell price
-        maxSellPrice: 250,  // Added max sell price
+        minSellPrice: 100,
+        maxSellPrice: 250,
         name: "Tomato",
         seedIcon: "sprites/seed_box.png",
+        stockRate: 1.0, // 100% chance to appear
         isMultiHarvest: true,
         harvestsLeft: -1,
         stages: [
@@ -41,12 +43,11 @@ export const seedShopData = {
         growTime: 2 * 60 * 1000,
         minWeight: 2.0,
         maxWeight: 2.8,
-        minSellPrice: 200,  // Added min sell price
-        maxSellPrice: 400,  // Added max sell price
+        minSellPrice: 200,
+        maxSellPrice: 400,
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
-        isMultiHarvest: true,
-        harvestsLeft: -1,
+        stockRate: 0.17, // 17% chance to appear
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
