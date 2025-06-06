@@ -2,7 +2,7 @@ export const seedShopData = {
     "carrot": {
         price: 10,
         stock: 10,
-        growTime: 15 * 1000,
+        growTime: 6.5 * 1000,
         minWeight: 0.1,
         maxWeight: 0.4,
         basePrice: 324.2123300206823,
