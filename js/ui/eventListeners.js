@@ -6,11 +6,13 @@ import { showMessage, updateInventoryDisplay, createPlotUI } from './uiUpdates.j
 import { selectTool, handleCropClick } from '../game/tools.js'; // Import tool-related functions
 
 export function attachEventListeners() {
-    buySeedButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const seedType = event.target.dataset.seed;
+    // Replace the buySeedButtons event listener with this
+    document.querySelector('.seed-grid').addEventListener('click', (event) => {
+        const seedItem = event.target.closest('.seed-item');
+        if (seedItem) {
+            const seedType = seedItem.dataset.seed;
             handleBuySeed(seedType);
-        });
+        }
     });
 
     collectAllBtn.addEventListener('click', collectAllHarvestablePlants);

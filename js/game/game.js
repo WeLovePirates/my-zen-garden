@@ -11,11 +11,17 @@ function generateRandomWeight(min, max) {
 export function handleBuySeed(seedType) {
     const seedDetails = game.seedShop[seedType];
     if (seedDetails) {
+        if (seedDetails.stock <= 0) { // Check if stock is available
+            showMessage(`${seedDetails.name} seeds are out of stock!`, 'error');
+            return;
+        }
         if (game.money >= seedDetails.price) {
             game.money -= seedDetails.price;
             game.inventory[seedType]++;
+            seedDetails.stock--; // Decrease stock after purchase
             updateMoneyDisplay();
             updateInventoryDisplay();
+            updateShopDisplay(); // Call new function to update shop UI
             showMessage(`Bought ${seedDetails.name} Seed for ${seedDetails.price} coins! It's in your inventory.`, 'success');
             saveGame();
         } else {
@@ -246,6 +252,21 @@ export function loadGame() {
                     game.inventory[seedType] = 0;
                 }
             }
+            // Ensure stock is loaded or initialized
+            // This loop iterates through seedShopData to ensure stock property exists for all seeds
+            for (const seedType in game.seedShop) {
+                // If loadedGame.seedShop[seedType] exists, use its stock, otherwise use the default from game.seedShop (seedData.js)
+                // This handles cases where old saves might not have 'stock' and new ones do.
+                if (loadedGame.seedShop && loadedGame.seedShop[seedType] && loadedGame.seedShop[seedType].hasOwnProperty('stock')) {
+                    game.seedShop[seedType].stock = loadedGame.seedShop[seedType].stock;
+                } else if (!game.seedShop[seedType].hasOwnProperty('stock')) {
+                    // Fallback: if no stock in loaded data AND no stock in current seedShopData, initialize to a default (e.g., 100)
+                    // This assumes seedData.js *should* have stock, but as a safeguard.
+                    // For this specific request, seedData.js will have stock, so this is primarily for future proofing.
+                    game.seedShop[seedType].stock = 100; // Or whatever default makes sense
+                }
+            }
+
 
             // Ensure shovel exists in tools, if not present (for old saves)
             if (!game.tools.shovel) {
@@ -256,6 +277,7 @@ export function loadGame() {
             updateInventoryDisplay();
             updateHarvestedItemsDisplay();
             updateToolsDisplay(); // Update tools display on load
+            updateShopDisplay(); // Update shop display on load
             // createPlotUI(); // This is called in main.js after loadGame
             showMessage("Game loaded successfully!", 'info');
         } else {
@@ -312,4 +334,27 @@ export function gameLoop() {
 export function startGameLoop() {
     // Start the game loop
     requestAnimationFrame(gameLoop);
+}
+
+// Add this new function to update the shop display
+export function updateShopDisplay() { // Export this function as it's used in handleBuySeed
+    const seedItems = document.querySelectorAll('.seed-item');
+    seedItems.forEach(item => {
+        const seedType = item.dataset.seed;
+        const stockDisplay = item.querySelector('.stock-count');
+        if (stockDisplay) {
+            stockDisplay.textContent = game.seedShop[seedType].stock;
+            // Optionally, disable/style if out of stock
+            if (game.seedShop[seedType].stock <= 0) {
+                item.classList.add('out-of-stock');
+                // You might also disable the button if it's within the item
+                const buyButton = item.querySelector('.buy-seed-btn');
+                if (buyButton) buyButton.disabled = true;
+            } else {
+                item.classList.remove('out-of-stock');
+                const buyButton = item.querySelector('.buy-seed-btn');
+                if (buyButton) buyButton.disabled = false;
+            }
+        }
+    });
 }

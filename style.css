@@ -510,7 +510,8 @@ h2 {
         right: 8px;
         height: 7px;
     }
-    .buy-seed-btn, .action-btn {
+    /* Adjusted general action buttons for smaller screens */
+    .action-btn {
         padding: 10px 15px;
         font-size: 0.95em;
     }
@@ -593,4 +594,154 @@ h2 {
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #81c784;
+}
+
+/* Updated styles for the seed shop */
+.seed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjusted minmax for smaller squares */
+    gap: 15px; /* Reduced gap */
+    padding: 15px; /* Reduced padding */
+}
+
+.seed-item {
+    background: #ffffff;
+    border: 2px solid #8bc34a;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* Enforce square aspect ratio */
+    width: 100%;
+    padding-bottom: 100%; /* This creates the square aspect ratio based on width */
+    position: relative; /* Needed for absolute positioning of children */
+    text-align: center; /* Center text by default - this applies to direct text children*/
+    display: flex; /* Use flexbox for main alignment */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Distribute space */
+    align-items: center; /* Center horizontally */
+    padding: 10px 5px; /* Adjust padding to keep content slightly away from edges */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+.seed-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seed-item .stock-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #4caf50;
+    color: white;
+    padding: 2px 6px; /* Slightly reduced padding */
+    border-radius: 10px; /* Slightly smaller border-radius */
+    font-size: 0.75em; /* Smaller font size */
+    font-weight: bold;
+    z-index: 10; /* Ensure it's above other elements */
+}
+
+.seed-item .seed-image {
+    width: 50px; /* Smaller icon size */
+    height: 50px; /* Smaller icon size */
+    object-fit: contain;
+    /* Position the image */
+    margin-top: 15px; /* Push it down from the top slightly */
+    margin-bottom: auto; /* Push it towards the top, above the info */
+    display: block; /* Ensure it behaves as a block for sizing/margin */
+}
+
+.seed-item .seed-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally within info */
+    gap: 3px; /* Reduced gap between info elements */
+    margin-top: auto; /* Push it towards the bottom, below the image */
+    width: 100%; /* Take full width of parent for text centering */
+    padding: 0 5px; /* Add slight horizontal padding */
+    box-sizing: border-box;
+}
+
+.seed-item .seed-name {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 0.8em; /* Further reduced font size */
+    line-height: 1.1; /* Tighter line spacing */
+    white-space: nowrap; /* Prevent wrapping for short names */
+    overflow: hidden; /* Hide overflow if name is too long */
+    text-overflow: ellipsis; /* Add ellipsis for overflowed names */
+    /* THIS IS THE KEY CHANGE: Ensure the text itself is centered */
+    display: block; /* Ensure it behaves as a block element */
+    text-align: center; /* Explicitly center the text within its own space */
+    width: 100%; /* Make sure it takes up the full width available to it */
+}
+
+.seed-item .seed-price {
+    color: #e67e22;
+    font-weight: bold;
+    font-size: 0.85em; /* Reduced price font size */
+}
+
+.seed-item .buy-seed-btn {
+    /* Override global .buy-seed-btn styles for inside seed-item */
+    background-color: #4CAF50; /* Green buy button */
+    color: white;
+    padding: 6px 10px; /* Smaller padding */
+    border: none;
+    border-radius: 8px; /* Slightly smaller border-radius */
+    cursor: pointer;
+    font-size: 0.8em; /* Smaller font size */
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 20px); /* Adjust width to fit with padding */
+    box-sizing: border-box; /* Include padding in width */
+    margin-top: 5px; /* Space above the button */
+    text-decoration: none; /* Remove underline if it's a link */
+    display: flex; /* Make it flex to center content */
+    align-items: center;
+    justify-content: center;
+}
+
+.seed-item .buy-seed-btn:hover {
+    background-color: #43A047;
+    transform: translateY(-1px);
+}
+
+/* Media query for seed shop on smaller screens to keep it compact */
+@media (max-width: 768px) {
+    .seed-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Even smaller minmax for tiny screens */
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .seed-item {
+        padding: 8px 4px; /* Reduced padding for smaller screens */
+    }
+
+    .seed-item .seed-image {
+        width: 40px; /* Even smaller icon for mobile */
+        height: 40px;
+        margin-top: 10px;
+    }
+
+    .seed-item .seed-name {
+        font-size: 0.7em; /* Smaller font for mobile */
+    }
+
+    .seed-item .seed-price {
+        font-size: 0.75em; /* Smaller price font for mobile */
+    }
+
+    .seed-item .buy-seed-btn {
+        padding: 4px 8px; /* Smaller padding for mobile button */
+        font-size: 0.7em; /* Smaller font for mobile button */
+        width: calc(100% - 16px); /* Adjust width for smaller padding */
+    }
+
+    .seed-item .stock-count {
+        padding: 1px 5px;
+        font-size: 0.65em;
+    }
 }

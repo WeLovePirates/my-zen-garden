@@ -26,10 +26,34 @@
             <div class="shop-actions-section">
                 <div class="shop">
                     <h2>Seed Shop</h2>
-                    <div class="seed-list">
-                        <button class="buy-seed-btn" data-seed="carrot"><img class="shop-seed-icon" src="sprites/carrot.png" alt="Carrot Seed Icon"> Carrot Seed ($10)</button>
-                        <button class="buy-seed-btn" data-seed="tomato"><img class="shop-seed-icon" src="sprites/tomato.png" alt="Tomato Seed Icon"> Tomato Seed ($50)</button>
-                        <button class="buy-seed-btn" data-seed="corn"><img class="shop-seed-icon" src="sprites/corn.png" alt="Corn Seed Icon"> Corn Seed ($200)</button>
+                    <div class="seed-grid">
+                        <div class="seed-item" data-seed="carrot">
+                            <span class="stock-count">10</span>
+                            <img class="seed-image" src="sprites/carrot.png" alt="Carrot">
+                            <div class="seed-info">
+                                <span class="seed-name">Carrot Seed</span>
+                                <span class="seed-price">$10</span>
+                            </div>
+                            <button class="buy-seed-btn" data-seed="carrot">Buy</button>
+                        </div>
+                        <div class="seed-item" data-seed="tomato">
+                            <span class="stock-count">5</span>
+                            <img class="seed-image" src="sprites/tomato.png" alt="Tomato">
+                            <div class="seed-info">
+                                <span class="seed-name">Tomato Seed</span>
+                                <span class="seed-price">$50</span>
+                            </div>
+                            <button class="buy-seed-btn" data-seed="tomato">Buy</button>
+                        </div>
+                        <div class="seed-item" data-seed="corn">
+                            <span class="stock-count">3</span>
+                            <img class="seed-image" src="sprites/corn.png" alt="Corn">
+                            <div class="seed-info">
+                                <span class="seed-name">Corn Seed</span>
+                                <span class="seed-price">$200</span>
+                            </div>
+                            <button class="buy-seed-btn" data-seed="corn">Buy</button>
+                        </div>
                     </div>
                 </div>
 
