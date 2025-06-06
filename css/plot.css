@@ -59,16 +59,17 @@
 }
 
 .plot-cell.grown {
-    background-color: #8bc34a;
-    border-color: #689f38;
+    background-color: #d1e7d8; /* Light mint/sage color from the tomato ready state */
+    border-color: #6a9c7e; /* Darker mint border like the tomato ready state */
     color: #333;
     font-size: 1.1em;
     font-weight: bold;
+    box-shadow: 0 0 15px rgba(106, 156, 126, 0.5), inset 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
 .plot-cell.multi-harvest-ready {
-    border-color: #6a9c7e;
-    background-color: #d1e7d8;
+    background-color: #d1e7d8; /* Light mint/sage color from the tomato ready state */
+    border-color: #6a9c7e; /* Darker mint border like the tomato ready state */
     box-shadow: 0 0 15px rgba(106, 156, 126, 0.5), inset 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
