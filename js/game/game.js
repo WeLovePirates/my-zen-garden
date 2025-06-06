@@ -7,6 +7,28 @@ function generateRandomWeight(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+function calculateSellValue(weight, cropType) {
+    const seedDetails = game.seedShop[cropType.toLowerCase()];
+    if (!seedDetails) {
+        console.error(`Seed details not found for ${cropType}`);
+        return 0;
+    }
+    
+    // Different scaling factors for different crops
+    const SCALING = {
+        carrot: 2.05,
+        tomato: 1.65,
+        corn: 2.05
+    };
+    
+    const preciseWeight = Number(Number(weight).toFixed(2));
+    const scale = SCALING[cropType.toLowerCase()] || 2.05;
+    const value = 2 * (seedDetails.basePrice * Math.pow(preciseWeight, scale));
+    
+    return Math.floor(value);
+}
+
+
 // --- Game Logic Functions ---
 export function handleBuySeed(seedType) {
     const seedDetails = game.seedShop[seedType];
@@ -101,19 +123,15 @@ export function harvestPlant(row, col) {
         }
 
         const weight = generateRandomWeight(seedDetails.minWeight, seedDetails.maxWeight);
-        let sellValue;
-
-        // Calculate sell value based on tier and weight
-        // For now, all crops use a linear calculation: baseSellPrice * weight
-        sellValue = seedDetails.baseSellPrice * weight;
+        const sellValue = calculateSellValue(weight, plant.name); // Using the new function
 
         const harvestedItem = {
             name: plant.name,
             weight: weight,
-            sellValue: Math.round(sellValue) // Round to whole number for display
+            sellValue: sellValue // sellValue is already rounded in calculateSellValue
         };
         game.harvestedItems.push(harvestedItem);
-        showMessage(`Harvested a ${plant.name} weighing ${weight.toFixed(2)}kg, worth ${Math.round(sellValue)} coins!`, 'success');
+        showMessage(`Harvested a ${plant.name} weighing ${weight.toFixed(2)}kg, worth ${sellValue} coins!`, 'success');
 
         // Multi-harvest check:
         if (plant.isMultiHarvest && (plant.harvestsLeft > 1 || plant.harvestsLeft === -1)) {
