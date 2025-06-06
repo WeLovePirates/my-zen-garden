@@ -5,7 +5,8 @@ export const seedShopData = {
         growTime: 16.5 * 1000,
         minWeight: 0.1,
         maxWeight: 0.4,
-        basePrice: 85.5,
+        minSellPrice: 15,  // Added min sell price
+        maxSellPrice: 35,  // Added max sell price
         name: "Carrot",
         seedIcon: "sprites/seed_box.png",
         stages: [
@@ -21,7 +22,8 @@ export const seedShopData = {
         growTime: 1.5 * 60 * 1000,
         minWeight: 0.25,
         maxWeight: 1.02,
-        basePrice: 105.85,  // Updated base price
+        minSellPrice: 100,  // Added min sell price
+        maxSellPrice: 250,  // Added max sell price
         name: "Tomato",
         seedIcon: "sprites/seed_box.png",
         isMultiHarvest: true,
@@ -39,9 +41,12 @@ export const seedShopData = {
         growTime: 2 * 60 * 1000,
         minWeight: 2.0,
         maxWeight: 2.8,
-        basePrice: 15.8,
+        minSellPrice: 200,  // Added min sell price
+        maxSellPrice: 400,  // Added max sell price
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
+        isMultiHarvest: true,
+        harvestsLeft: -1,
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
