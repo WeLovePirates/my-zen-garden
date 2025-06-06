@@ -46,7 +46,12 @@ export function updateCellVisual(cellElement, plantObject) {
             const now = Date.now();
             const elapsedTime = now - plantObject.plantedTime;
             const progress = Math.min(1, elapsedTime / plantObject.growTime);
-
+            const remainingTime = Math.max(0, plantObject.growTime - elapsedTime);
+            
+            // Calculate remaining minutes and seconds
+            const remainingMinutes = Math.floor(remainingTime / 60000);
+            const remainingSeconds = Math.floor((remainingTime % 60000) / 1000);
+            
             for (let i = seedDetails.stages.length - 1; i >= 0; i--) {
                 if (progress >= seedDetails.stages[i].threshold) {
                     currentStage = seedDetails.stages[i];
@@ -64,6 +69,13 @@ export function updateCellVisual(cellElement, plantObject) {
 
             const progressBarContainer = document.createElement('div');
             progressBarContainer.classList.add('progress-bar-container');
+            
+            // Create timer element
+            const timerElement = document.createElement('div');
+            timerElement.classList.add('progress-timer');
+            timerElement.textContent = `${remainingMinutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            progressBarContainer.appendChild(timerElement);
+            
             const progressBarFill = document.createElement('div');
             progressBarFill.classList.add('progress-bar-fill');
             progressBarFill.id = `progress-${cellElement.dataset.row}-${cellElement.dataset.col}`;
