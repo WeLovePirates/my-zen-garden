@@ -389,6 +389,7 @@ export function updateShopDisplay() {
 
 // Add this new function
 // Modify the resetShop function to use stockRate
+// Modify the resetShop function to use minStock and maxStock
 export function resetShop() {
     // Reset stock for all seeds
     for (const seedType in game.seedShop) {
@@ -396,8 +397,10 @@ export function resetShop() {
         
         // Check if the item should appear based on stockRate
         if (Math.random() < (seedData.stockRate || 1.0)) {
-            // Randomly set stock between 5 and 15 for each seed that appears
-            game.seedShop[seedType].stock = Math.floor(Math.random() * 11) + 5;
+            // Use minStock and maxStock if defined, otherwise use default range
+            const min = seedData.minStock || 5;
+            const max = seedData.maxStock || 15;
+            game.seedShop[seedType].stock = Math.floor(Math.random() * (max - min + 1)) + min;
         } else {
             // Set stock to 0 if item doesn't appear
             game.seedShop[seedType].stock = 0;
