@@ -1,0 +1,120 @@
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .game-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .header-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    #message-area {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 8px 10px;
+    }
+    
+    .plot-grid {
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
+        gap: 8px;
+    }
+    
+    .plot-cell {
+        width: 90px;
+        height: 90px;
+        font-size: 0.75em;
+    }
+    
+    .progress-bar-container {
+        bottom: 5px;
+        left: 8px;
+        right: 8px;
+        height: 7px;
+    }
+    
+    .action-btn {
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+    
+    .inventory-section {
+        padding: 15px;
+    }
+    
+    .plant-from-inventory-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+    
+    /* Plant icons responsive sizes */
+    .plot-cell .plant-icon.small {
+        width: 19px;
+        height: 19px;
+    }
+    
+    .plot-cell .plant-icon.medium {
+        width: 26px;
+        height: 26px;
+    }
+    
+    .plot-cell .plant-icon.large {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .plot-cell .plant-icon.xlarge {
+        width: 38px;
+        height: 38px;
+    }
+    
+    .plot-cell .plant-icon,
+    .plot-cell .plot-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    /* Shop responsive styles */
+    .seed-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .seed-item {
+        padding: 8px 4px;
+    }
+    
+    .seed-item .seed-image {
+        width: 40px;
+        height: 40px;
+        margin-top: 10px;
+    }
+    
+    .seed-item .seed-name {
+        font-size: 0.7em;
+    }
+    
+    .seed-item .seed-price {
+        font-size: 0.75em;
+    }
+    
+    .seed-item .buy-seed-btn {
+        padding: 4px 8px;
+        font-size: 0.7em;
+        width: calc(100% - 16px);
+    }
+    
+    .seed-item .stock-count {
+        padding: 1px 5px;
+        font-size: 0.65em;
+    }
+}

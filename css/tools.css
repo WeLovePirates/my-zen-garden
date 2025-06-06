@@ -1,0 +1,54 @@
+#tools-section {
+    border-color: #a5d6a7;
+    background-color: #e8f5e9;
+}
+
+.tool-item {
+    background-color: #ffffff;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tool-name {
+    font-weight: bold;
+    color: #689f38;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.tool-item.selected {
+    border-color: #ffc107;
+    background-color: #fffde7;
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+    transform: scale(1.02);
+}
+
+.tool-use-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tool-item.selected .tool-use-btn {
+    background-color: #43A047;
+}
+
+.tool-use-btn:hover {
+    background-color: #43A047;
+    transform: translateY(-1px);
+}
+
+.no-tools-message {
+    color: #757575;
+    font-style: italic;
+    margin-top: 15px;
+}

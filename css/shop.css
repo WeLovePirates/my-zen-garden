@@ -1,0 +1,127 @@
+.shop-actions-section {
+    background-color: #f5f5f5;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.seed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.shop-seed-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-right: 8px;
+}
+
+#collect-all-btn {
+    background-color: #64b5f6;
+}
+
+#collect-all-btn:hover {
+    background-color: #42a5f5;
+}
+
+/* Seed Grid Layout */
+.seed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.seed-item {
+    background: #ffffff;
+    border: 2px solid #8bc34a;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    box-sizing: border-box;
+}
+
+.seed-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seed-item .stock-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #4caf50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.seed-item .seed-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-top: 15px;
+    margin-bottom: auto;
+    display: block;
+}
+
+.seed-item .seed-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    margin-top: auto;
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.seed-item .seed-name {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 0.8em;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.seed-item .seed-price {
+    color: #e67e22;
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+.shop-timer {
+    text-align: center;
+    color: #4CAF50;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #f0f8f0;
+    border-radius: 4px;
+}
