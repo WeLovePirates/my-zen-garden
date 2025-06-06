@@ -84,12 +84,15 @@ export function plantSeed(row, col) {
 
         const plantInstance = {
             name: seedDetails.name,
-            growTime: seedDetails.growTime,
+            // Use initialGrowTime for first growth if it exists, otherwise use regular growTime
+            growTime: seedDetails.initialGrowTime || seedDetails.growTime,
             plantedTime: Date.now(),
             isGrown: false,
             isMultiHarvest: seedDetails.isMultiHarvest || false,
-            harvestsLeft: seedDetails.isMultiHarvest ? seedDetails.harvestsLeft : 1
+            harvestsLeft: seedDetails.isMultiHarvest ? seedDetails.harvestsLeft : 1,
+            isFirstGrowth: true // New flag to track if this is the first growth cycle
         };
+
         game.plot[row][col] = plantInstance;
         game.inventory[seedTypeToPlant]--;
 
@@ -120,37 +123,43 @@ export function harvestPlant(row, col) {
         }
 
         const weight = generateRandomWeight(seedDetails.minWeight, seedDetails.maxWeight);
-        const sellValue = calculateSellValue(weight, plant.name); // Using the new function
+        const sellValue = calculateSellValue(weight, plant.name);
 
         const harvestedItem = {
             name: plant.name,
             weight: weight,
-            sellValue: sellValue // sellValue is already rounded in calculateSellValue
+            sellValue: sellValue
         };
         game.harvestedItems.push(harvestedItem);
         showMessage(`Harvested a ${plant.name} weighing ${weight.toFixed(2)}kg, worth ${sellValue} coins!`, 'success');
 
-        // Multi-harvest check:
         if (plant.isMultiHarvest && (plant.harvestsLeft > 1 || plant.harvestsLeft === -1)) {
             // If harvestsLeft is -1, don't decrement it (infinite harvests)
             if (plant.harvestsLeft !== -1) {
                 plant.harvestsLeft--;
             }
             plant.isGrown = false;
-            plant.plantedTime = Date.now(); // Reset grow time
+            plant.plantedTime = Date.now();
+            
+            // Use regular growTime for subsequent growths
+            if (plant.isFirstGrowth) {
+                plant.isFirstGrowth = false;
+                plant.growTime = seedDetails.growTime;
+            }
+            
             const cellElement = plotGrid.children[row * 3 + col];
             updateCellVisual(cellElement, plant);
         } else {
-            game.plot[row][col] = null; // Clear the plot
+            game.plot[row][col] = null;
             const cellElement = plotGrid.children[row * 3 + col];
             updateCellVisual(cellElement, null);
-            if (plant.isMultiHarvest) { // If it was multi-harvest but now exhausted
+            if (plant.isMultiHarvest) {
                 showMessage(`Fully harvested ${plant.name}. Plot is now empty.`, 'success');
             }
         }
 
         updateHarvestedItemsDisplay();
-        updateMoneyDisplay(); // Update money display if selling immediately (though selling is a separate action now)
+        updateMoneyDisplay();
         saveGame();
     } else if (plant && !plant.isGrown) {
         showMessage(`${plant.name} is still growing...`, 'info');
