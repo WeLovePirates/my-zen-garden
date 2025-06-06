@@ -1,0 +1,53 @@
+body {
+    font-family: 'Comic Neue', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #d1e7d8;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-family: 'Comic Neue', cursive;
+    color: #6a9c7e;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px #f0f8ff;
+    letter-spacing: 1.5px;
+}
+
+h2 {
+    font-family: 'Comic Neue', cursive;
+    color: #557b66;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e0f2f7;
+    padding-bottom: 5px;
+}
+
+.buy-seed-btn, .action-btn {
+    background-color: #8bc34a;
+    color: #ffffff;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 0.5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buy-seed-btn:hover, .action-btn:hover {
+    background-color: #7cb342;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
