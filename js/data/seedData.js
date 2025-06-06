@@ -3,6 +3,7 @@
 export const seedShopData = {
     "carrot": {
         price: 10,
+        stock: 10,
         growTime: 15 * 1000, // 15 seconds
         baseSellPrice: 150, // ADJUSTED for linear scaling, ensuring value increases with weight
         minWeight: 0.1,    // Realistic min weight for a carrot (0.1 kg = 100g)
@@ -18,6 +19,7 @@ export const seedShopData = {
     },
     "tomato": {
         price: 150,
+        stock: 10,
         growTime: 1.5 * 60 * 1000, // 1.5 minutes
         baseSellPrice: 1500,
         minWeight: 0.1,
@@ -36,6 +38,7 @@ export const seedShopData = {
     },
     "corn": {
         price: 200,
+        stock: 10,
         growTime: 2 * 60 * 1000, // 2 minutes
         baseSellPrice: 1750, // Adjusted for smaller profit margins (from previous conversation)
         minWeight: 0.2,    // Realistic min weight for corn (0.2 kg = 200g per cob)
