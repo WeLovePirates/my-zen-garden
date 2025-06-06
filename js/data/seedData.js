@@ -5,7 +5,7 @@ export const seedShopData = {
         growTime: 16.5 * 1000,
         minWeight: 0.1,
         maxWeight: 0.4,
-        basePrice: 324.2123300206823,
+        basePrice: 85.5,
         name: "Carrot",
         seedIcon: "sprites/seed_box.png",
         stages: [
@@ -19,9 +19,9 @@ export const seedShopData = {
         price: 800,
         stock: 10,
         growTime: 1.5 * 60 * 1000,
-        minWeight: 0.15,
-        maxWeight: 0.65,
-        basePrice: 45.85,  // Updated base price
+        minWeight: 0.25,
+        maxWeight: 1.02,
+        basePrice: 105.85,  // Updated base price
         name: "Tomato",
         seedIcon: "sprites/seed_box.png",
         isMultiHarvest: true,
@@ -39,7 +39,7 @@ export const seedShopData = {
         growTime: 2 * 60 * 1000,
         minWeight: 2.0,
         maxWeight: 2.8,
-        basePrice: 4.8,
+        basePrice: 15.8,
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
         stages: [
