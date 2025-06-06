@@ -1,7 +1,8 @@
 export const seedShopData = {
     "carrot": {
         price: 10,
-        stock: 10,
+        minStock: 5,  // New: minimum stock when available
+        maxStock: 25, // New: maximum stock when available
         growTime: 16.5 * 1000,
         minWeight: 0.1,
         maxWeight: 0.4,
@@ -19,7 +20,8 @@ export const seedShopData = {
     },
     "tomato": {
         price: 800,
-        stock: 10,
+        minStock: 1,  // New: minimum stock when available
+        maxStock: 3,  // New: maximum stock when available
         growTime: 1.5 * 60 * 1000,
         minWeight: 0.25,
         maxWeight: 1.02,
@@ -39,7 +41,8 @@ export const seedShopData = {
     },
     "corn": {
         price: 1300,
-        stock: 10,
+        minStock: 1,  // New: minimum stock when available
+        maxStock: 4,  // New: maximum stock when available
         growTime: 2 * 60 * 1000,
         minWeight: 2.0,
         maxWeight: 2.8,
