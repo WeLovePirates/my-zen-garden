@@ -2,6 +2,7 @@
 import { seedShopData } from '../data/seedData.js'; // Import seedShopData
 
 export const LOCAL_STORAGE_KEY = 'myZenGardenSave'; // Define this once
+export const SHOP_RESET_INTERVAL = 90000; // 90 seconds in milliseconds
 
 export const game = {
     money: 100,
@@ -13,7 +14,8 @@ export const game = {
     harvestedItems: [], // Inventory for harvested crops
     tools: {
         shovel: { name: "Shovel", imagePath: "sprites/shovel.png" } // Shovel is a permanent tool
-    }
+    },
+    lastShopReset: Date.now() // Add this to track when the shop was last reset
 };
 
 // Initialize inventory with all seeds from seedShopData set to 0
