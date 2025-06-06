@@ -95,6 +95,12 @@
         </div>
     </div>
 
+    <script type="module">
+        import { testPrice, runTests } from './js/utils/testUtils.js';
+        // Make the test functions available globally
+        window.testPrice = testPrice;
+        window.runTests = runTests;
+    </script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

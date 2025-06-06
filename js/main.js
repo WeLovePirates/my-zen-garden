@@ -4,6 +4,7 @@ import { loadGame, gameLoop, startGameLoop } from './game/game.js';
 import { updateMoneyDisplay, createPlotUI, updateInventoryDisplay, updateHarvestedItemsDisplay, updateToolsDisplay, showMessage } from './ui/uiUpdates.js';
 import { attachEventListeners } from './ui/eventListeners.js';
 import { generateShopHTML } from './ui/shopUI.js'; // <-- CHANGE THIS LINE
+import { testPrice, runTests } from './utils/testUtils.js';
 
 // --- Game Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
