@@ -14,16 +14,13 @@ function calculateSellValue(weight, cropType) {
         return 0;
     }
     
-    // Different scaling factors for different crops
-    const SCALING = {
-        carrot: 2.05,
-        tomato: 1.65,
-        corn: 2.05
-    };
-    
     const preciseWeight = Number(Number(weight).toFixed(2));
-    const scale = SCALING[cropType.toLowerCase()] || 2.05;
-    const value = 2 * (seedDetails.basePrice * Math.pow(preciseWeight, scale));
+    
+    // Linear interpolation using values from seedData
+    const value = seedDetails.minSellPrice + 
+        (preciseWeight - seedDetails.minWeight) * 
+        (seedDetails.maxSellPrice - seedDetails.minSellPrice) / 
+        (seedDetails.maxWeight - seedDetails.minWeight);
     
     return Math.floor(value);
 }
