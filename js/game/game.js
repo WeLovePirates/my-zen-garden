@@ -343,23 +343,30 @@ export function startGameLoop() {
 }
 
 // Add this new function to update the shop display
-export function updateShopDisplay() { // Export this function as it's used in handleBuySeed
+export function updateShopDisplay() {
     const seedItems = document.querySelectorAll('.seed-item');
     seedItems.forEach(item => {
         const seedType = item.dataset.seed;
         const stockDisplay = item.querySelector('.stock-count');
-        if (stockDisplay) {
-            stockDisplay.textContent = game.seedShop[seedType].stock;
-            // Optionally, disable/style if out of stock
-            if (game.seedShop[seedType].stock <= 0) {
-                item.classList.add('out-of-stock');
-                // You might also disable the button if it's within the item
-                const buyButton = item.querySelector('.buy-seed-btn');
-                if (buyButton) buyButton.disabled = true;
+        const buyButton = item.querySelector('.buy-seed-btn');
+        
+        if (stockDisplay && game.seedShop[seedType]) {
+            const stock = game.seedShop[seedType].stock;
+            stockDisplay.textContent = stock;
+            
+            // Handle out of stock styling
+            if (stock <= 0) {
+                stockDisplay.classList.add('out-of-stock');
+                if (buyButton) {
+                    buyButton.classList.add('disabled');
+                    buyButton.disabled = true;
+                }
             } else {
-                item.classList.remove('out-of-stock');
-                const buyButton = item.querySelector('.buy-seed-btn');
-                if (buyButton) buyButton.disabled = false;
+                stockDisplay.classList.remove('out-of-stock');
+                if (buyButton) {
+                    buyButton.classList.remove('disabled');
+                    buyButton.disabled = false;
+                }
             }
         }
     });
