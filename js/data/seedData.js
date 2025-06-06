@@ -18,7 +18,7 @@ export const seedShopData = {
         ]
     },
     "tomato": {
-        price: 150,
+        price: 800,
         stock: 10,
         growTime: 1.5 * 60 * 1000, // 1.5 minutes
         baseSellPrice: 1500,
@@ -37,7 +37,7 @@ export const seedShopData = {
         ]
     },
     "corn": {
-        price: 200,
+        price: 1300,
         stock: 10,
         growTime: 2 * 60 * 1000, // 2 minutes
         baseSellPrice: 1750, // Adjusted for smaller profit margins (from previous conversation)
