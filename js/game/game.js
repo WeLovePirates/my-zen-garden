@@ -1,5 +1,5 @@
 // js/game/game.js
-import { game, LOCAL_STORAGE_KEY, plotGrid, messageArea, moneyDisplay, inventoryDisplay, harvestedItemsDisplay, toolsListDisplay, buySeedButtons } from './gameState.js';
+import { game, LOCAL_STORAGE_KEY, plotGrid, messageArea, moneyDisplay, inventoryDisplay, harvestedItemsDisplay, toolsListDisplay, buySeedButtons, SHOP_RESET_INTERVAL } from './gameState.js';
 import { updateMoneyDisplay, showMessage, updateCellVisual, updateInventoryDisplay, updateHarvestedItemsDisplay, updateToolsDisplay } from '../ui/uiUpdates.js';
 
 // Helper function to generate a random weight
@@ -229,6 +229,8 @@ export function loadGame() {
             game.inventory = loadedGame.inventory || {};
             game.harvestedItems = loadedGame.harvestedItems || [];
             game.tools = loadedGame.tools || {}; // Ensure tools are loaded
+            game.lastShopReset = loadedGame.lastShopReset || Date.now(); // Load lastShopReset or initialize
+
 
             // Special handling for plot plants:
             // Re-assign functions and correct plantedTime (Date objects are stringified)
@@ -323,6 +325,10 @@ export function gameLoop() {
             }
         }
     }
+
+    // Check shop reset every game loop iteration
+    checkShopReset();
+
     if (stateChanged) {
         saveGame();
     }
@@ -357,4 +363,40 @@ export function updateShopDisplay() { // Export this function as it's used in ha
             }
         }
     });
+}
+
+// Add this new function
+export function resetShop() {
+    // Reset stock for all seeds
+    for (const seedType in game.seedShop) {
+        // Randomly set stock between 5 and 15 for each seed
+        game.seedShop[seedType].stock = Math.floor(Math.random() * 11) + 5;
+    }
+    game.lastShopReset = Date.now();
+    updateShopDisplay();
+    showMessage("The seed shop has been restocked!", 'info');
+    saveGame();
+}
+
+// Add this function to check and update the shop timer
+export function checkShopReset() {
+    const now = Date.now();
+    const timeSinceReset = now - game.lastShopReset;
+    
+    if (timeSinceReset >= SHOP_RESET_INTERVAL) {
+        resetShop();
+    }
+    
+    // Calculate time remaining
+    const timeRemaining = Math.max(0, SHOP_RESET_INTERVAL - timeSinceReset);
+    updateShopTimer(timeRemaining);
+}
+
+// Add this function to update the timer display
+function updateShopTimer(timeRemaining) {
+    const timerElement = document.getElementById('shop-timer');
+    if (timerElement) {
+        const seconds = Math.ceil(timeRemaining / 1000);
+        timerElement.textContent = `Shop resets in: ${seconds}s`;
+    }
 }

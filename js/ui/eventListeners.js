@@ -1,11 +1,14 @@
 // js/ui/eventListeners.js
 import { game, plotGrid, buySeedButtons, inventoryDisplay, harvestedItemsDisplay, collectAllBtn, sellAllHarvestedBtn, toolsListDisplay } from '../game/gameState.js'; // Added toolsListDisplay
-import { handleBuySeed, plantSeed, harvestPlant, selectSeedForPlanting, sellHarvestedItem, sellAllHarvestedItems, saveGame, collectAllHarvestablePlants } from '../game/game.js';
+import { handleBuySeed, plantSeed, harvestPlant, selectSeedForPlanting, sellHarvestedItem, sellAllHarvestedItems, saveGame, collectAllHarvestablePlants, checkShopReset } from '../game/game.js'; // Added checkShopReset
 import { showMessage, updateInventoryDisplay, createPlotUI } from './uiUpdates.js'; // Assuming createPlotUI or updatePlotUI will refresh the plot
 
 import { selectTool, handleCropClick } from '../game/tools.js'; // Import tool-related functions
 
 export function attachEventListeners() {
+    // Start the shop timer update interval
+    setInterval(checkShopReset, 1000); // Check every second
+    
     // Replace the buySeedButtons event listener with this
     document.querySelector('.seed-grid').addEventListener('click', (event) => {
         const seedItem = event.target.closest('.seed-item');
