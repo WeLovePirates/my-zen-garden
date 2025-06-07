@@ -23,8 +23,8 @@ export const seedShopData = {
         price: 50,
         minStock: 1,
         maxStock: 6,
-        initialGrowTime: 10 * 1000, // 1200 seconds initial
-        growTime: 8 * 1000, // 120 seconds subsequent
+        initialGrowTime: 6500, // Corrected to 6.5 seconds (within 5-8s range)
+        growTime: 10 * 1000, // Corrected to 10 seconds subsequent
         minWeight: 0.20,
         maxWeight: 0.50,
         minSellPrice: 14,
@@ -39,6 +39,26 @@ export const seedShopData = {
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
             { threshold: 0.6, imagePath: "sprites/strawberry.png", sizeClass: "large" },
             { threshold: 1, imagePath: "sprites/strawberry.png", sizeClass: "xlarge" }
+        ]
+    },
+    "tulip": {
+        price: 600,
+        minStock: 5,
+        maxStock: 25,
+        growTime: 6 * 1000,
+        minWeight: 0.1,
+        maxWeight: 0.75,
+        minSellPrice: 767,
+        maxSellPrice: 1000,
+        name: "Tulip",
+        seedIcon: "sprites/seed_box.png",
+        stockRate: 0.333, // Updated to 33.3%
+        isMultiHarvest: false,
+        stages: [
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
+            { threshold: 0.7, imagePath: "sprites/tulip.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/tulip.png", sizeClass: "xlarge" }
         ]
     },
     "tomato": {
@@ -75,7 +95,7 @@ export const seedShopData = {
         maxSellPrice: 400,
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
-        stockRate: 1.0,
+        stockRate: 0.17, // Updated to 17%
         isMultiHarvest: false, // Corn is not multi-harvest
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
