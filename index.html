@@ -31,36 +31,27 @@
             </div>
 
             <div class="shop-actions-section">
-                <div class="shop">
-                    <h2>Seed Shop</h2>
-                    <div id="shop-timer" class="shop-timer"></div>
-                    <div class="seed-grid">
-                        <div class="seed-item" data-seed="carrot">
-                            <span class="stock-count">10</span>
-                            <img class="seed-image" src="sprites/carrot.png" alt="Carrot">
-                            <div class="seed-info">
-                                <span class="seed-name">Carrot Seed</span>
-                                <span class="seed-price">$10</span>
+                <div class="shop-main-view">
+                    <div class="shop-views-wrapper">
+                        <div id="seedShop" class="shop-page active-shop">
+                            <div class="shop-header-with-nav">
+                                <button id="shop-arrow-left" class="shop-arrow">&lt;</button>
+                                <h2>Seed Shop</h2>
+                                <button id="shop-arrow-right" class="shop-arrow">&gt;</button>
                             </div>
-                            <button class="buy-seed-btn" data-seed="carrot">Buy</button>
+                            <div id="shop-timer" class="shop-timer"></div>
+                            <div class="seed-grid">
+                                </div>
                         </div>
-                        <div class="seed-item" data-seed="tomato">
-                            <span class="stock-count">5</span>
-                            <img class="seed-image" src="sprites/tomato.png" alt="Tomato">
-                            <div class="seed-info">
-                                <span class="seed-name">Tomato Seed</span>
-                                <span class="seed-price">$50</span>
+
+                        <div id="gearToolShop" class="shop-page">
+                            <div class="shop-header-with-nav">
+                                <button id="shop-arrow-left" class="shop-arrow">&lt;</button>
+                                <h2>Gear & Tool Shop</h2>
+                                <button id="shop-arrow-right" class="shop-arrow">&gt;</button>
                             </div>
-                            <button class="buy-seed-btn" data-seed="tomato">Buy</button>
-                        </div>
-                        <div class="seed-item" data-seed="corn">
-                            <span class="stock-count">3</span>
-                            <img class="seed-image" src="sprites/corn.png" alt="Corn">
-                            <div class="seed-info">
-                                <span class="seed-name">Corn Seed</span>
-                                <span class="seed-price">$200</span>
-                            </div>
-                            <button class="buy-seed-btn" data-seed="corn">Buy</button>
+                            <div class="tool-grid">
+                                </div>
                         </div>
                     </div>
                 </div>

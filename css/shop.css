@@ -1,3 +1,4 @@
+/* Container for the main shop and actions section */
 .shop-actions-section {
     background-color: #f5f5f5;
     border-radius: 12px;
@@ -9,40 +10,224 @@
     gap: 30px;
 }
 
-.seed-list {
+/* Main container for the shop content and its navigation */
+.shop-main-view {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+    flex-direction: column; /* Stack navigation header and shop content vertically */
+    gap: 15px; /* Space between the navigation header and the shop content */
+    width: 100%; /* Take full width of its parent (.shop-actions-section) */
+    background-color: #ffffff; /* Background for the overall shop block */
+    border: 1px solid #e0e0e0; /* Border for the overall shop block */
+    border-radius: 12px; /* Rounded corners for the overall shop block */
+    padding-bottom: 15px; /* Add some padding at the bottom of the shop block */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow for the shop block */
 }
 
-.shop-seed-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    margin-right: 8px;
+/* NEW: Header for shop title and arrows within each shop page */
+.shop-header-with-nav {
+    display: flex;
+    justify-content: space-between; /* Pushes arrows to the ends */
+    align-items: center; /* Vertically centers arrows and title */
+    padding: 10px 15px; /* Padding around the header content */
+    border-bottom: 1px solid #eee; /* Subtle separator below the header */
+    margin-bottom: 15px; /* Space below the header */
 }
 
-#collect-all-btn {
-    background-color: #64b5f6;
+/* Styling for the navigation arrows */
+.shop-arrow {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    padding: 10px 16px; /* Padding for the arrows */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px; /* Arrow font size */
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-#collect-all-btn:hover {
-    background-color: #42a5f5;
+.shop-arrow:hover:not(:disabled) {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25);
 }
 
-/* Seed Grid Layout */
+.shop-arrow:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.shop-arrow:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* Wrapper for the individual shop pages (seed shop, tool shop, etc.) */
+.shop-views-wrapper {
+    position: relative;
+    min-height: 350px; /* Minimum height for the overall shop content area */
+    width: 100%;
+    overflow: hidden; /* Hides content of inactive shops */
+    flex-grow: 1;
+}
+
+/* Individual shop page styling */
+.shop-page {
+    width: 100%;
+    height: 100%; /* Makes sure the page fills the wrapper's height */
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 25px; /* Padding for the content inside shop page, not the header */
+    box-sizing: border-box;
+    text-align: center;
+    background-color: transparent;
+    display: none; /* By default, all shop pages are hidden */
+    flex-direction: column; /* **NEW: Use flex column for internal layout** */
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Make the active shop page visible */
+.shop-page.active-shop {
+    display: flex;
+}
+
+/* Headers within shop pages (now inside .shop-header-with-nav) */
+.shop-page h2 {
+    margin: 0; /* Remove default margins */
+    flex-grow: 1; /* Allow title to take up available space */
+    text-align: center; /* Center the title */
+    color: #333;
+    font-size: 1.8em;
+    /* Removed padding-bottom and border-bottom as .shop-header-with-nav provides separation */
+}
+
+
+/* Seed Grid Layout - now scrollable */
 .seed-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 15px;
-    padding: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 18px;
+    padding: 0; /* Handled by .shop-page padding */
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    flex-grow: 1; /* **NEW: Allows grid to fill remaining vertical space** */
+    overflow-y: auto; /* **NEW: Makes the grid content scrollable** */
+    min-height: 0; /* **NEW: Allows flex item to shrink** */
+    padding-right: 5px; /* Space for scrollbar */
 }
 
 .seed-item {
     background: #ffffff;
     border: 2px dashed #8bc34a;
-    border-radius: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    padding-bottom: 100%; /* Makes it square */
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 8px;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.seed-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.seed-item .stock-count {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: #4caf50;
+    color: white;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.seed-item .stock-count.out-of-stock {
+    background: #e53935;
+}
+
+.seed-item .buy-seed-btn {
+    font-size: 0.85em;
+    padding: 5px 10px;
+    margin-top: 6px;
+    background-color: #4CAF50;
+    border-radius: 6px;
+}
+
+.seed-item .seed-image {
+    width: 55px;
+    height: 55px;
+    margin-top: 10px;
+    margin-bottom: auto;
+}
+
+.seed-item .seed-info {
+    margin-top: auto;
+    gap: 4px;
+}
+
+.seed-item .seed-name {
+    font-size: 0.85em;
+}
+
+.seed-item .seed-price {
+    font-size: 0.95em;
+}
+
+.shop-timer {
+    text-align: center;
+    color: #4CAF50;
+    font-size: 0.95em;
+    margin-bottom: 15px; /* Adjusted margin */
+    padding: 6px; /* Adjusted padding */
+    background-color: #f0f8f0;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    width: 90%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tool Grid Layout - now scrollable */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 18px;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    flex-grow: 1; /* **NEW: Allows grid to fill remaining vertical space** */
+    overflow-y: auto; /* **NEW: Makes the grid content scrollable** */
+    min-height: 0; /* **NEW: Allows flex item to shrink** */
+    padding-right: 5px; /* Space for scrollbar */
+}
+
+.tool-item {
+    background: #ffffff;
+    border: 2px dashed #64b5f6; /* Blue border for tools */
+    border-radius: 8px;
     cursor: pointer;
     width: 100%;
     padding-bottom: 100%;
@@ -52,104 +237,48 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5px;
+    padding: 12px 8px;
     box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.seed-item .stock-count {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: #4caf50;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 0.75em;
-    font-weight: bold;
-    z-index: 10;
-    transition: background-color 0.3s ease;
+.tool-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* Out of stock styling */
-.seed-item .stock-count.out-of-stock {
-    background: #e53935;
-    color: white;
+.tool-item .buy-tool-btn {
+    font-size: 0.85em;
+    padding: 5px 10px;
+    margin-top: 6px;
+    background-color: #64b5f6; /* Blue color for buy button */
+    border-radius: 6px;
 }
 
-.seed-item .buy-seed-btn {
-    font-size: 0.8em;
-    padding: 4px 8px;
-    transition: transform 0.2s, background-color 0.2s;
-    margin-top: 4px;
-    background-color: #4CAF50; /* Match the use button's base color */
+.tool-item .tool-image {
+    width: 55px;
+    height: 55px;
+    margin-top: 10px;
+    margin-bottom: auto;
 }
 
-.seed-item .buy-seed-btn:hover {
-    transform: translateY(-1px);
-    background-color: #43A047; /* Match the use button's hover color */
+.tool-item .tool-info {
+    margin-top: auto;
+    gap: 4px;
 }
 
-.seed-item .buy-seed-btn.disabled {
+.tool-item .tool-name {
+    font-size: 0.85em;
+}
+
+.tool-item .tool-price {
+    font-size: 0.95em;
+}
+
+.tool-item .buy-tool-btn.disabled {
     background-color: #e0e0e0;
     cursor: not-allowed;
     color: #9e9e9e;
     pointer-events: none;
     box-shadow: none;
-}
-
-.seed-item .buy-seed-btn.disabled:hover {
-    transform: none;
-    background-color: #e0e0e0;
-}
-
-.seed-item .seed-image {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    margin-top: 15px;
-    margin-bottom: auto;
-    display: block;
-}
-
-.seed-item .seed-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    margin-top: auto;
-    width: 100%;
-    padding: 0 5px;
-    box-sizing: border-box;
-}
-
-.seed-item .seed-name {
-    font-weight: bold;
-    color: #2c3e50;
-    font-size: 0.8em;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    text-align: center;
-    width: 100%;
-    margin: 0 auto;
-    max-width: 100%;
-}
-
-.seed-item .seed-price {
-    color: #e67e22;
-    font-weight: bold;
-    font-size: 0.85em;
-    margin-bottom: 4px;
-}
-
-.shop-timer {
-    text-align: center;
-    color: #4CAF50;
-    font-size: 0.9em;
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: #f0f8f0;
-    border-radius: 4px;
 }
