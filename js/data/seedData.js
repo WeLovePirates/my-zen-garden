@@ -11,6 +11,7 @@ export const seedShopData = {
         name: "Carrot",
         seedIcon: "sprites/seed_box.png",
         stockRate: 1.0,
+        isMultiHarvest: false, // Carrots are not multi-harvest
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
@@ -18,11 +19,33 @@ export const seedShopData = {
             { threshold: 1, imagePath: "sprites/carrot.png", sizeClass: "xlarge" }
         ]
     },
+    "strawberry": {
+        price: 50,
+        minStock: 1,
+        maxStock: 6,
+        initialGrowTime: 10 * 1000, // 1200 seconds initial
+        growTime: 8 * 1000, // 120 seconds subsequent
+        minWeight: 0.20,
+        maxWeight: 0.50,
+        minSellPrice: 14,
+        maxSellPrice: 22,
+        name: "Strawberry",
+        seedIcon: "sprites/seed_box.png",
+        stockRate: 1.0,
+        isMultiHarvest: true,
+        harvestsLeft: -1, // -1 for infinite harvests
+        stages: [
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
+            { threshold: 0.6, imagePath: "sprites/strawberry.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/strawberry.png", sizeClass: "xlarge" }
+        ]
+    },
     "tomato": {
         price: 800,
         minStock: 1,
         maxStock: 3,
-        initialGrowTime: 1200 * 1000, // 1200 seconds initial
+        initialGrowTime: 300 * 1000, // 1200 seconds initial
         growTime: 120 * 1000, // 120 seconds subsequent
         minWeight: 0.25,
         maxWeight: 1.02,
@@ -32,7 +55,7 @@ export const seedShopData = {
         seedIcon: "sprites/seed_box.png",
         stockRate: 1.0,
         isMultiHarvest: true,
-        harvestsLeft: -1,
+        harvestsLeft: -1, // -1 for infinite harvests
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
@@ -44,7 +67,7 @@ export const seedShopData = {
         price: 1300,
         minStock: 1,
         maxStock: 4,
-        initialGrowTime: 1800 * 1000, // 1800 seconds initial
+        initialGrowTime: 390 * 1000, // 1800 seconds initial
         growTime: 175 * 1000, // 175 seconds subsequent
         minWeight: 2.0,
         maxWeight: 2.8,
@@ -52,13 +75,12 @@ export const seedShopData = {
         maxSellPrice: 400,
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
-        stockRate: 0.17,
-        isMultiHarvest: true,
-        harvestsLeft: -1,
+        stockRate: 1.0,
+        isMultiHarvest: false, // Corn is not multi-harvest
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
-            { threshold: 0.6, imagePath: "sprites/corn.png", sizeClass: "large" },
+            { threshold: 0.7, imagePath: "sprites/corn_stalk.png", sizeClass: "large" },
             { threshold: 1, imagePath: "sprites/corn.png", sizeClass: "xlarge" }
         ]
     }
