@@ -118,7 +118,8 @@ export const seedShopData = {
         name: "Corn",
         seedIcon: "sprites/seed_box.png",
         stockRate: 0.17, // Updated to 17%
-        isMultiHarvest: false, // Corn is not multi-harvest
+        isMultiHarvest: true,
+        harvestsLeft: -1, // -1 for infinite harvests
         stages: [
             { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
