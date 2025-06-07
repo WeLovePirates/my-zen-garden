@@ -25,8 +25,6 @@ export const seedShopData = {
         maxStock: 6,
         initialGrowTime: 10 * 1000, 
         growTime: 8 * 1000, 
-        initialGrowTime: 6500, // Corrected to 6.5 seconds (within 5-8s range)
-        growTime: 10 * 1000, // Corrected to 10 seconds subsequent
         minWeight: 0.20,
         maxWeight: 0.50,
         minSellPrice: 14,
