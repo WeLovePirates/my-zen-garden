@@ -23,6 +23,8 @@ export const seedShopData = {
         price: 50,
         minStock: 1,
         maxStock: 6,
+        initialGrowTime: 10 * 1000, 
+        growTime: 8 * 1000, 
         initialGrowTime: 6500, // Corrected to 6.5 seconds (within 5-8s range)
         growTime: 10 * 1000, // Corrected to 10 seconds subsequent
         minWeight: 0.20,
@@ -39,6 +41,28 @@ export const seedShopData = {
             { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
             { threshold: 0.6, imagePath: "sprites/strawberry.png", sizeClass: "large" },
             { threshold: 1, imagePath: "sprites/strawberry.png", sizeClass: "xlarge" }
+        ]
+    },
+    "blueberry": {
+        price: 400,
+        minStock: 1,
+        maxStock: 5,
+        initialGrowTime: 105 * 1000, 
+        growTime: 22 * 1000, 
+        minWeight: 0.20,
+        maxWeight: 0.40,
+        minSellPrice: 20,
+        maxSellPrice: 42,
+        name: "Blueberry",
+        seedIcon: "sprites/seed_box.png",
+        stockRate: 1.0,
+        isMultiHarvest: true,
+        harvestsLeft: -1, // -1 for infinite harvests
+        stages: [
+            { threshold: 0, imagePath: "sprites/seedling.png", sizeClass: "small" },
+            { threshold: 0.3, imagePath: "sprites/herb.png", sizeClass: "medium" },
+            { threshold: 0.6, imagePath: "sprites/blueberry.png", sizeClass: "large" },
+            { threshold: 1, imagePath: "sprites/blueberry.png", sizeClass: "xlarge" }
         ]
     },
     "tulip": {
