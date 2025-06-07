@@ -3,6 +3,7 @@ export const seedShopData = {
         price: 10,
         minStock: 5,
         maxStock: 25,
+        stock: 10, // Added: Initial stock should be 0
         growTime: 10 * 1000, // 10 seconds
         minWeight: 0.1,
         maxWeight: 0.4,
@@ -23,8 +24,9 @@ export const seedShopData = {
         price: 50,
         minStock: 1,
         maxStock: 6,
-        initialGrowTime: 10 * 1000, 
-        growTime: 8 * 1000, 
+        stock: 5, // Added: Initial stock should be 0
+        initialGrowTime: 10 * 1000,
+        growTime: 8 * 1000,
         minWeight: 0.20,
         maxWeight: 0.50,
         minSellPrice: 14,
@@ -45,8 +47,9 @@ export const seedShopData = {
         price: 400,
         minStock: 1,
         maxStock: 5,
-        initialGrowTime: 105 * 1000, 
-        growTime: 22 * 1000, 
+        stock: 3, // Added: Initial stock should be 0
+        initialGrowTime: 105 * 1000,
+        growTime: 22 * 1000,
         minWeight: 0.20,
         maxWeight: 0.40,
         minSellPrice: 20,
@@ -67,6 +70,7 @@ export const seedShopData = {
         price: 600,
         minStock: 1,
         maxStock: 5,
+        stock: 0, // Added: Initial stock should be 0
         growTime: 6 * 1000,
         minWeight: 0.1,
         maxWeight: 0.75,
@@ -87,6 +91,7 @@ export const seedShopData = {
         price: 800,
         minStock: 1,
         maxStock: 3,
+        stock: 0, // Added: Initial stock should be 0
         initialGrowTime: 300 * 1000, // 1200 seconds initial
         growTime: 120 * 1000, // 120 seconds subsequent
         minWeight: 0.25,
@@ -109,6 +114,7 @@ export const seedShopData = {
         price: 1300,
         minStock: 1,
         maxStock: 4,
+        stock: 0, // Added: Initial stock should be 0
         initialGrowTime: 390 * 1000, // 1800 seconds initial
         growTime: 175 * 1000, // 175 seconds subsequent
         minWeight: 2.0,
