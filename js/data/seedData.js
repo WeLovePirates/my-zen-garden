@@ -71,7 +71,7 @@ export const seedShopData = {
         minWeight: 0.1,
         maxWeight: 0.75,
         minSellPrice: 767,
-        maxSellPrice: 1000,
+        maxSellPrice: 800,
         name: "Tulip",
         seedIcon: "sprites/seed_box.png",
         stockRate: 0.333, // Updated to 33.3%
